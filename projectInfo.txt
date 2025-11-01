@@ -1,0 +1,49 @@
+hotel-stay/
+├─ .env
+├─ .gitignore
+├─ package.json
+├─ README.md
+└─ src/
+   ├─ index.js                 # Entry point
+   ├─ app.js                   # Express app setup
+   │
+   ├─ config/
+   │  └─ index.js              # Environment config, DB connect
+   │
+   ├─ routes/
+   │  ├─ auth.routes.js
+   │  ├─ users.routes.js
+   │  ├─ rooms.routes.js
+   │  └─ bookings.routes.js
+   │
+   ├─ controllers/
+   │  ├─ auth.controller.js
+   │  ├─ users.controller.js
+   │  ├─ rooms.controller.js
+   │  └─ bookings.controller.js
+   │
+   ├─ models/
+   │  ├─ user.model.js
+   │  ├─ room.model.js
+   │  └─ booking.model.js
+   │
+   ├─ middlewares/
+   │  ├─ auth.middleware.js
+   │  ├─ error.middleware.js
+   │  └─ validate.middleware.js
+   │
+   ├─ services/
+   │  ├─ auth.service.js
+   │  ├─ booking.service.js
+   │  └─ room.service.js
+   │
+   ├─ utils/
+   │  ├─ logger.js
+   │  ├─ email.js
+   │  └─ helpers.js
+   │
+   ├─ uploads/                 # (for room images, optional in dev)
+   │
+   └─ tests/
+      ├─ unit/
+      └─ integration/

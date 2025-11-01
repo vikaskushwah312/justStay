@@ -1,0 +1,50 @@
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import path from "path";
+// import "express-async-errors"; // handles async errors
+
+// Import routes
+import authRoutes from "./routes/auth.routes.js";
+
+import errorMiddleware from "./middlewares/error.middleware.js";
+import propertyRoutes from "./routes/property.routes.js";
+import propertyRoomRoutes from "./routes/propertyRoom.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
+import roomBooking from "./routes/roomBooking.routes.js";
+
+
+
+
+const app = express();
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// Middleware
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(morgan("dev"));
+
+// Simple test route
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "Hotel Stay API is running successfully",
+  });
+});
+
+// Auth routes
+app.use("/api/auth", authRoutes);
+app.use("/api/properties", propertyRoutes);
+app.use("/api/rooms", propertyRoomRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/room-bookings", roomBooking);
+
+// Global Error Handler
+app.use(errorMiddleware);
+
+export default app;
