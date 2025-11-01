@@ -7,9 +7,9 @@ import e from "express";
 
 // Utility: Generate JWT Token
 const generateToken = (userId, role) => {
-  return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
+  // return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
+  //   expiresIn: "7d",
+  // });
 };
 
 // Utility: Generate OTP (6 digits)
@@ -44,7 +44,7 @@ export const register = async (req, res) => {
       role: role || "customer",
     });
 
-    const token = generateToken(user._id, user.role);
+    // const token = generateToken(user._id, user.role);
     const message = "Registration successful";
     const responseUser =  {
             id: user._id,
@@ -96,7 +96,7 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = generateToken(user._id, user.role);
+    // const token = generateToken(user._id, user.role);
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -107,7 +107,7 @@ export const login = async (req, res) => {
         phone: user.phone,
         role: user.role,
       },
-      token,
+      // token,
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
