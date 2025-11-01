@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    const MONGO_URI = process.env.MONGO_URI;
+    // const MONGO_URI = process.env.MONGO_URI;
+    const MONGO_URI = "mongodb+srv://vikas_hotel_stay:Vikas2111@hotelstay.ywzrx5a.mongodb.net/?appName=Hotelstay";
     if (!MONGO_URI) {
       throw new Error("MONGO_URI is not defined in environment variables");
     }
