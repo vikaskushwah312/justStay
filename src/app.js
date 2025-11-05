@@ -14,6 +14,10 @@ import propertyRoutes from "./routes/property.routes.js";
 import propertyRoomRoutes from "./routes/propertyRoom.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import roomBooking from "./routes/roomBooking.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
+import supportTicketRoutes from "./routes/supportTicket.routes.js";
+import supportChatRoutes from "./routes/supportChat.routes.js";
+import supportKBRoutes from "./routes/supportKB.routes.js";
 
 
 
@@ -43,6 +47,10 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/rooms", propertyRoomRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/room-bookings", roomBooking);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/support", supportTicketRoutes);
+app.use("/api/support", supportKBRoutes); //for knowledge base only used for  admin line master table
+app.use("/api/chat-support", supportChatRoutes);
 
 // Global Error Handler
 app.use(errorMiddleware);

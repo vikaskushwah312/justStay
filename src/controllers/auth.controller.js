@@ -69,6 +69,24 @@ export const register = async (req, res) => {
             }
         //   token,
         });
+    } else if(  role === 'admin') {
+        res.status(201).json({
+            data: {
+                status: "success",
+                message,
+                user : responseUser
+            }
+        //   token,
+        });
+    } else {
+        res.status(201).json({
+            data: {
+                status: "success",
+                message,
+                user : responseUser
+            }
+        //   token,
+        });
     }
   } catch (error) {
     console.error(error);
@@ -84,21 +102,26 @@ export const login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
 
-    const user = await User.findOne({
-      $or: [{ email }, { phone }],
-    }).select("+password");
+    let user = await User.findOne({ phone });
 
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    if (!user.password)
-      return res.status(400).json({ message: "This user has no password, use OTP login." });
+    // if (!user.password)
+    //   return res.status(400).json({ message: "This user has no password, use OTP login." });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+    // const isMatch = await bcrypt.compare(password, user.password);
+    // if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
     // const token = generateToken(user._id, user.role);
+     // Update user with new OTP
+    const otp = generateOTP();
+    const otpExpiry = new Date(Date.now() + 50 * 60 * 1000); // 5 mins
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+
     res.status(200).json({
-      message: "Login successful",
+      message: "Login OTp Send successfully",
       user: {
         id: user._id,
         firstName: user.firstName,
@@ -106,6 +129,7 @@ export const login = async (req, res) => {
         email: user.email,
         phone: user.phone,
         role: user.role,
+        otp
       },
       // token,
     });

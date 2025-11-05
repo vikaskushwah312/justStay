@@ -49,9 +49,24 @@ const propertyRoomSchema = new Schema(
       sixHours: { type: Number, default: 0 },
     },
 
-    photos: [{ type: String, default: [] }],
+    photos: { type: [String], default: [] },
 
-    amenities: [ { type: String, default: [] } ],
+    amenities: { type: [String], default: [] },
+
+    // Pricing adjustments
+    discounts: {
+      oneNightPercent: { type: Number, default: 0, min: 0, max: 100 },
+      threeHoursPercent: { type: Number, default: 0, min: 0, max: 100 },
+      sixHoursPercent: { type: Number, default: 0, min: 0, max: 100 },
+    },
+
+    promo: {
+      code: { type: String, trim: true },
+      discountPercent: { type: Number, min: 0, max: 100 },
+      validFrom: { type: Date },
+      validTo: { type: Date },
+      isActive: { type: Boolean, default: false },
+    },
   },
   { timestamps: true }
 );
