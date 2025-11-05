@@ -18,6 +18,16 @@ import reviewRoutes from "./routes/review.routes.js";
 import supportTicketRoutes from "./routes/supportTicket.routes.js";
 import supportChatRoutes from "./routes/supportChat.routes.js";
 import supportKBRoutes from "./routes/supportKB.routes.js";
+import cancellationRoutes from "./routes/cancellation.routes.js";
+import inventoryRoutes from "./routes/inventory.routes.js";
+import ratesRoutes from "./routes/rates.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+import revenueRoutes from "./routes/revenue.routes.js";
+import settlementsRoutes from "./routes/settlements.routes.js";
+import reportsRoutes from "./routes/reports.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
+import promotionsRoutes from "./routes/promotions.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
 
 
@@ -49,8 +59,20 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/room-bookings", roomBooking);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/support", supportTicketRoutes);
-app.use("/api/support", supportKBRoutes); //for knowledge base only used for  admin line master table
 app.use("/api/chat-support", supportChatRoutes);
+//for knowledge base only used for  admin line master table
+app.use("/api/support", supportKBRoutes); 
+app.use("/api/cancellations", cancellationRoutes);
+app.use("/api/inventory", inventoryRoutes);
+app.use("/api/rates", ratesRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/revenue", revenueRoutes);
+app.use("/api/settlements", settlementsRoutes);
+app.use("/api/reports", reportsRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/marketing", promotionsRoutes);
+app.use("/api/profile", profileRoutes);
+
 
 // Global Error Handler
 app.use(errorMiddleware);
