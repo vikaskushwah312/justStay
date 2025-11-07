@@ -1,9 +1,6 @@
 
 import User from "../models/user.model.js";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import crypto from "crypto";
-import e from "express";
+import PropertyInfo from "../models/property.model.js";
 
 // Utility: Generate JWT Token
 const generateToken = (userId, role) => {
@@ -28,11 +25,45 @@ export const register = async (req, res) => {
     if (!role)
       return res.status(400).json({ message: "Role is required" });
 
-    const existing = await User.findOne({ $or: [{ phone }] });
-    if (existing)
-      return res.status(400).json({ message: "phone number already exists" });
+    if (role !=="customer" && role !=="hotelier" && role !=="admin") {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid user type'
+      });
+    }
 
-    const user = await User.create({
+    const existingUser = await User.findOne({ $or: [{ phone }] });
+    if (existingUser) {
+      // If userType is different, throw error
+      if (existingUser.role !== role) {
+        return res.status(400).json({
+          status: 'error',
+          message: `Phone number already registered as ${existingUser.role}. Please use a different phone number.`,
+        });
+      }
+      //for login
+      if(existingUser.role === 'hotelier') {
+        const otp = generateOTP();
+        const otpExpiry = new Date(Date.now() + 50 * 60 * 1000); // 5 mins
+        existingUser.otp = otp;
+        existingUser.otpExpiry = otpExpiry;
+        await existingUser.save();
+
+        res.status(200).json({ 
+          message: "Login OTp Send successfully",
+          user: {
+            id: existingUser._id,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
+            email: existingUser.email,
+            phone: existingUser.phone,
+            role: existingUser.role,
+            otp
+          }
+        });
+      }
+    } else {
+      const user = await User.create({
       firstName,
       lastName,
       email,
@@ -41,7 +72,7 @@ export const register = async (req, res) => {
       status: "active",
       otp: generateOTP(),
       otpExpiry: new Date(Date.now() + 50 * 60 * 1000), // 5 mins
-      role: role || "customer",
+      role,
     });
 
     // const token = generateToken(user._id, user.role);
@@ -88,6 +119,8 @@ export const register = async (req, res) => {
         //   token,
         });
     }
+      
+    }    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -241,9 +274,7 @@ export const verifyOtp = async (req, res) => {
                 phone: user.phone,
                 role: user.role,
             },
-            propertyInfo:{
-                
-            }
+            propertyInfo: await PropertyInfo.findOne({ userId: user?._id })
         }
     //   token,
     });

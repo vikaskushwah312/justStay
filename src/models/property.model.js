@@ -34,7 +34,10 @@ const propertySchema = new Schema(
       enum: propertyTypes,
       required: true,
     },
-
+    screenNumber: {
+      type: Number,
+      required: true,
+    },
     basicPropertyDetails: {
       name: { type: String, required: true, trim: true },
       builtYear: { type: Number },

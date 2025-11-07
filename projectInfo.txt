@@ -47,3 +47,4 @@ hotel-stay/
    └─ tests/
       ├─ unit/
       └─ integration/
+hotel = 690720925ccac6d9000cbeb6

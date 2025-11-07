@@ -28,6 +28,7 @@ import reportsRoutes from "./routes/reports.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
 import promotionsRoutes from "./routes/promotions.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
+import adminRoutes from "./admin/routes/index.routes.js";
 
 
 
@@ -72,6 +73,7 @@ app.use("/api/reports", reportsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/marketing", promotionsRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 // Global Error Handler
