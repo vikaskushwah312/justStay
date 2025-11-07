@@ -49,17 +49,20 @@ export const register = async (req, res) => {
         existingUser.otpExpiry = otpExpiry;
         await existingUser.save();
 
-        res.status(200).json({ 
-          message: "Login OTp Send successfully",
-          user: {
-            id: existingUser._id,
-            firstName: existingUser.firstName,
-            lastName: existingUser.lastName,
-            email: existingUser.email,
-            phone: existingUser.phone,
-            role: existingUser.role,
-            otp
-          }
+        res.status(201).json({
+            data: {
+                status: "success",
+                message: "Login OTp Send successfully",
+                user : {
+                  id: existingUser._id,
+                  firstName: existingUser.firstName,
+                  lastName: existingUser.lastName,
+                  email: existingUser.email,
+                  phone: existingUser.phone,
+                  role: existingUser.role,
+                  otp
+                }
+            }
         });
       }
     } else {
@@ -228,6 +231,7 @@ export const resendOtp = async (req, res) => {
       message: 'OTP resent successfully',
       data: responseUser
     });
+    
 
   } catch (error) {
     res.status(500).json({ status: "error", message: "Server error", error: error.message });
