@@ -11,7 +11,6 @@ export const createOrUpdateProperty = async (req, res) => {
     if (!userId) {
       return res.status(400).json({ message: "userId is required" });
     }
-
     let property;
 
     if (propertyId) {
@@ -20,6 +19,8 @@ export const createOrUpdateProperty = async (req, res) => {
       if (!property) {
         return res.status(404).json({ message: "Property not found" });
       }
+
+      
 
       Object.assign(property, req.body); // merge updates
       await property.save();

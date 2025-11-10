@@ -27,11 +27,18 @@ const propertySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },    
+    propertyAmenities: {
+      type: [String],
+      default: [],
     },
-
     propertyType: {
       type: String,
-      enum: propertyTypes,
+      //enum: propertyTypes,
+      required: true,
+    },
+    propertyListType: { 
+      type: String,
       required: true,
     },
     screenNumber: {
@@ -73,8 +80,13 @@ const propertySchema = new Schema(
     },
 
     photos: {
-        type: [String],
-        default: [],
+      type: [
+        {
+          name: { type: String, required: true },
+          url: { type: String, required: true }
+        }
+      ],
+    default: []
     },
     // PAN
     pan: {

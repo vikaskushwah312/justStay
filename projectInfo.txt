@@ -1,3 +1,12 @@
+Figm url
+https://www.figma.com/design/DzvpPfGHdd44IgKE5Fujxb/Just-Stay?node-id=114-11677&t=nQaMLnypH103hIiy-0
+
+Admin Link
+http://3.108.235.250:3001/guests-management
+
+mat Link
+https://matall.s3.eu-north-1.amazonaws.com/index.html
+
 hotel-stay/
 ├─ .env
 ├─ .gitignore
