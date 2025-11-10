@@ -46,6 +46,7 @@ const stayDetailsSchema = new Schema({
 const coGuestDetailsSchema = new Schema({
   name: { type: String },
   idType: { type: String },
+  number: { type: String },
   idUrl: { type: String },
 });
 

@@ -2,6 +2,9 @@ import express from "express";
 import dashboardRoutes from "./dashboard.routes.js";
 import guestsRoutes from "./guests.routes.js";
 import propertyRoutes from "./properties.routes.js";
+import propertyTypeRoutes from "./propertyType.routes.js";
+import propertyListTypeRoutes from "./propertyListType.routes.js";
+
 
 const router = express.Router();
 
@@ -9,5 +12,8 @@ const router = express.Router();
 router.use("/", dashboardRoutes); // /overview
 router.use("/guests", guestsRoutes);
 router.use('/properties', propertyRoutes);
+router.use('/property-types', propertyTypeRoutes);
+router.use('/property-list-types', propertyListTypeRoutes);
+
 
 export default router;
