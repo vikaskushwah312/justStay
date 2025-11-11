@@ -248,7 +248,148 @@ export const listHourlyBookings = async (req, res) => {
 };
 
 export const listRefundBookings = async (req, res) => {
-  return listByBaseFilter(req, res, { 'refund.status': { $exists: true, $ne: 'none' } }, 'Error listing refund bookings');
+  try {
+    const { page = 1, limit = 10, search, status, source, from, to } = req.query;
+
+    const base = { 'refund.status': { $exists: true, $ne: 'none' } };
+    const query = { ...base };
+    if (status) query.status = status;
+    if (source) query.source = source;
+    if (from || to) {
+      query.createdAt = {};
+      if (from) query.createdAt.$gte = new Date(from);
+      if (to) query.createdAt.$lte = new Date(to);
+    }
+
+    const or = [];
+    if (search) {
+      or.push({ bookingCode: { $regex: search, $options: 'i' } });
+      or.push({ 'guestDetails.name': { $regex: search, $options: 'i' } });
+      or.push({ 'guestDetails.phone': { $regex: search, $options: 'i' } });
+    }
+
+    const match = or.length ? { $and: [query, { $or: or }] } : query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const listPipeline = [
+      { $match: match },
+      { $sort: { createdAt: -1 } },
+      { $skip: skip },
+      { $limit: parseInt(limit) },
+      { $lookup: { from: 'propertyinfos', localField: 'propertyId', foreignField: '_id', as: 'property' } },
+      { $unwind: { path: '$property', preserveNullAndEmptyArrays: true } },
+      { $project: {
+          bookingCode: 1,
+          source: 1,
+          paymentStatus: 1,
+          isHourly: 1,
+          status: 1,
+          createdAt: 1,
+          'guestDetails.name': 1,
+          'guestDetails.phone': 1,
+          'stayDetails.roomType': 1,
+          'stayDetails.checkInDate': 1,
+          checkOutDate: 1,
+          'priceSummary.totalAmount': 1,
+          refund: 1,
+          property: { name: '$property.basicPropertyDetails.name', city: '$property.location.city' }
+      } }
+    ];
+
+    const summaryPipeline = [
+      { $match: base },
+      { $group: {
+          _id: '$refund.status',
+          count: { $sum: 1 },
+          amount: { $sum: { $ifNull: ['$refund.amount', 0] } }
+      } }
+    ];
+
+    const [aggItems, total, summaryAgg] = await Promise.all([
+      RoomBooking.aggregate(listPipeline),
+      RoomBooking.countDocuments(match),
+      RoomBooking.aggregate(summaryPipeline)
+    ]);
+
+    const items = aggItems.map(it => normalizeBooking(it, it.property));
+
+    // build summary with all keys present
+    const summary = { requested: { count: 0, amount: 0 }, approved: { count: 0, amount: 0 }, processed: { count: 0, amount: 0 }, rejected: { count: 0, amount: 0 }, totalRequests: 0, totalAmountRequested: 0, totalAmountProcessed: 0 };
+    for (const r of summaryAgg) {
+      const key = r._id || 'none';
+      if (key === 'requested' || key === 'approved' || key === 'processed' || key === 'rejected') {
+        summary[key].count = r.count || 0;
+        summary[key].amount = r.amount || 0;
+      }
+      summary.totalRequests += r.count || 0;
+      summary.totalAmountRequested += r.amount || 0;
+      if (key === 'processed') summary.totalAmountProcessed += r.amount || 0;
+    }
+    const dummy = {
+  "success": true,
+  "summary": {
+    "requested": { "count": 1, "amount": 1 },
+    "approved": { "count": 1, "amount": 1 },
+    "processed": { "count": 1, "amount": 1 },
+    "rejected": { "count": 1, "amount": 1 },
+    "totalRequests": 1,
+    "totalAmountRequested": 1,
+    "totalAmountProcessed": 1
+  },
+  "data": [
+    {
+      "_id": "…",
+      "bookingCode": "BK005",
+      "source": "JustStay App",
+      "paymentStatus": "paid",
+      "isHourly": false,
+      "status": "Cancel",
+      "createdAt": "2025-10-09T10:40:00.000Z",
+      "updatedAt": null,
+      "userId": "...",
+      "propertyId": "...",
+      "guestDetails": { "name": "", "fatherOrSpouseName": "", "gender": "", "age": 0, "address": "", "pincode": "", "city": "", "state": "", "phone": "", "email": "" },
+      "identificationProof": { "type": "", "number": "", "documentUrl": "" },
+      "stayDetails": { "roomNumber": "", "roomType": "", "adults": 1, "children": 0, "checkInDate": null, "checkInTime": "", "expectedCheckOutDate": null, "expectedCheckOutTime": "", "purposeOfVisit": "" },
+      "coGuestDetails": [],
+      "checkOutDate": null,
+      "time": "",
+      "actualCheckInAt": null,
+      "actualCheckOutAt": null,
+      "food": [],
+      "priceSummary": { "roomPrice": 0, "foodPrice": 0, "taxAndServiceFees": 0, "discount": 0, "platformFee": 0, "totalAmount": 0 },
+      "refund": { "status": "processed", "amount": 15115, "reason": "", "processedAt": "2025-10-10T05:00:00.000Z" },
+      "dispute": { "status": "none", "reason": "", "notes": "", "openedAt": null, "resolvedAt": null },
+      "paymentInfo": { "method": "", "transactionId": "" },
+      "adminNotes": "",
+      "specialRequests": "",
+      "voucherUrl": "",
+      "confirmationSentAt": null,
+      "property": { "name": "The Grand Oberoi", "city": "Mumbai" }
+    }
+  ],
+  "pagination": { "total": 0, "page": 1, "limit": 10, "totalPages": 0 }
+} 
+  if (!items) {
+    return res.status(200).json({
+      success: true,
+      summary,
+      data: items,
+      pagination: { total, page: parseInt(page), limit: parseInt(limit), totalPages: Math.ceil(total / parseInt(limit)) }
+    });
+
+  } else {
+    return res.status(200).json({
+      success: true,
+      summary: dummy.summary,
+      data: dummy.data,
+      pagination: { total, page: parseInt(page), limit: parseInt(limit), totalPages: Math.ceil(total / parseInt(limit)) }
+    });
+
+  }
+  } catch (error) {
+    return handleError(res, error, 'Error listing refund bookings');
+  }
 };
 
 export const listDisputeBookings = async (req, res) => {

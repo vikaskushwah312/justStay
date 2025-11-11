@@ -28,7 +28,7 @@ const propertySchema = new Schema(
       ref: "User",
       required: true,
     },  
-    attachment: { 
+    agreement: { 
       type: String,
       required: true,
     },

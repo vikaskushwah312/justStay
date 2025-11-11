@@ -127,4 +127,7 @@ router.post('/:id/resend-confirmation', resendBookingConfirmation);
 router.post('/:id/voucher', generateVoucher);
 router.post('/:id/contact', contactGuest);
 
+// Bookging Management
+
+
 export default router;
