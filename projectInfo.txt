@@ -7,6 +7,12 @@ http://3.108.235.250:3001/guests-management
 mat Link
 https://matall.s3.eu-north-1.amazonaws.com/index.html
 
+AWS INformation
+https://644701781376.signin.aws.amazon.com/console Mangal Mangal@123
+
+Base url
+http://3.111.42.160:4000/api/properties
+
 hotel-stay/
 ├─ .env
 ├─ .gitignore

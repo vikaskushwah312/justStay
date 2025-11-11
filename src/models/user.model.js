@@ -53,6 +53,25 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "inactive", "banned"],
       default: "active",
     },
+    // ---- Verification (KYC) ----
+    kycStatus: {
+      type: String,
+      enum: ['Pending', 'Verified', 'Rejected'],
+      default: 'Pending'
+    },
+    kycDocuments: [
+      {
+        name: { type: String, trim: true },
+        documentType: { type: String, trim: true },
+        documentUrl: { type: String, trim: true },
+        status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },
+        uploadedAt: { type: Date, default: Date.now },
+        expiresAt: { type: Date }
+      }
+    ],
+    kycNotes: { type: String, trim: true, default: '' },
+    bypassAutoCheck: { type: Boolean, default: false },
+    flags: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

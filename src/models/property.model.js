@@ -27,7 +27,11 @@ const propertySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },    
+    },  
+    attachment: { 
+      type: String,
+      required: true,
+    },
     propertyAmenities: {
       type: [String],
       default: [],
@@ -68,8 +72,12 @@ const propertySchema = new Schema(
 
     documents: [
       {
+        name: { type: String, trim: true },
         documentType: { type: String, enum: documentTypes, required: true },
         documentUrl: { type: String, required: true },
+        status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },
+        uploadedAt: { type: Date, default: Date.now },
+        expiresAt: { type: Date }
       },
     ],
 
@@ -79,15 +87,49 @@ const propertySchema = new Schema(
       default: "Under Review",
     },
 
+    // Admin verification helpers
+    verificationNotes: { type: String, trim: true, default: '' },
+    bypassAutoCheck: { type: Boolean, default: false },
+
+    // Listing workflow
+    listingStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
+    badges: {
+      verifiedBadge: { type: Boolean, default: false },
+      goSafeBadge: { type: Boolean, default: false },
+      hourlyBooking: { type: Boolean, default: false },
+      coupleFriendly: { type: Boolean, default: false }
+    },
+    flags: { type: [String], default: [] },
+
     photos: {
       type: [
         {
           name: { type: String, required: true },
-          url: { type: String, required: true }
+          url: { type: String, required: true },
+          status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
+          uploadedAt: { type: Date, default: Date.now }
         }
       ],
-    default: []
+      default: []
     },
+
+    videos: {
+      type: [
+        {
+          title: { type: String, trim: true },
+          url: { type: String, required: true },
+          thumbnail: { type: String, trim: true },
+          status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
+          uploadedAt: { type: Date, default: Date.now }
+        }
+      ],
+      default: []
+    },
+
     // PAN
     pan: {
         number: { type: String, trim: true },

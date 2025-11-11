@@ -1,6 +1,8 @@
 // src/admin/controllers/properties.controller.js
 import Property from '../../models/property.model.js';
 import PropertyRoom from '../../models/propertyRoom.model.js';
+import RoomBooking from '../../models/roomBooking.model.js';
+import Review from '../../models/review.model.js';
 import mongoose from 'mongoose';
 import { 
   calculatePropertyRatings, 
@@ -19,6 +21,495 @@ const handleError = (res, error, message = 'Server error') => {
     message,
     error: process.env.NODE_ENV === 'development' ? error.message : undefined
   });
+};
+
+// -------- REVIEWS (Admin) --------
+// Summary cards + recent reviews
+export const getPropertyReviewsSummary = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+
+    // Ensure property exists
+    const property = await Property.findById(propertyId).select('_id');
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const [totals, recent] = await Promise.all([
+      Review.aggregate([
+        { $match: { propertyId: new mongoose.Types.ObjectId(propertyId), isPublished: true } },
+        { $group: { _id: null, total: { $sum: 1 }, avgRating: { $avg: '$rating' }, replied: { $sum: { $cond: [{ $ifNull: ['$reply.message', false] }, 1, 0] } } } }
+      ]),
+      Review.find({ propertyId, isPublished: true })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .select('userId rating comment createdAt reply')
+        .populate('userId', 'firstName lastName')
+        .lean()
+    ]);
+
+    const total = totals?.[0]?.total || 0;
+    const avgRating = totals?.[0]?.avgRating ? Math.round(totals[0].avgRating * 10) / 10 : 0;
+    const replied = totals?.[0]?.replied || 0;
+    const responseRate = total > 0 ? Math.round((replied / total) * 100) : 0;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        cards: { totalReviews: total, averageRating: avgRating, responseRate },
+        recentReviews: recent
+      }
+    });
+  } catch (error) {
+    console.error('Error in getPropertyReviewsSummary:', error);
+    return handleError(res, error, 'Error fetching reviews summary');
+  }
+};
+
+// List reviews (paginated)
+export const getPropertyReviews = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { page = 1, limit = 10, isPublished } = req.query;
+    const query = { propertyId };
+    if (isPublished === 'true' || isPublished === 'false') query.isPublished = isPublished === 'true';
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const [items, total] = await Promise.all([
+      Review.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .select('userId rating comment createdAt reply isPublished')
+        .populate('userId', 'firstName lastName')
+        .lean(),
+      Review.countDocuments(query)
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      data: items,
+      pagination: { total, page: parseInt(page), limit: parseInt(limit), totalPages: Math.ceil(total / parseInt(limit)) }
+    });
+  } catch (error) {
+    console.error('Error in getPropertyReviews:', error);
+    return handleError(res, error, 'Error fetching reviews');
+  }
+};
+
+// Reply to a review
+export const replyToReview = async (req, res) => {
+  try {
+    const { propertyId, reviewId } = req.params;
+    const { message, repliedBy } = req.body; // repliedBy optional (admin userId)
+    if (!message) return res.status(400).json({ success: false, message: 'message is required' });
+
+    const review = await Review.findOne({ _id: reviewId, propertyId });
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+
+    review.reply = { message, repliedBy, repliedAt: new Date() };
+    await review.save();
+
+    return res.status(200).json({ success: true, data: review });
+  } catch (error) {
+    console.error('Error in replyToReview:', error);
+    return handleError(res, error, 'Error replying to review');
+  }
+};
+
+// Publish/unpublish a review
+export const updateReviewPublishStatus = async (req, res) => {
+  try {
+    const { propertyId, reviewId } = req.params;
+    const { isPublished } = req.body;
+    const updated = await Review.findOneAndUpdate(
+      { _id: reviewId, propertyId },
+      { $set: { isPublished: !!isPublished } },
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ success: false, message: 'Review not found' });
+    return res.status(200).json({ success: true, data: updated });
+  } catch (error) {
+    console.error('Error in updateReviewPublishStatus:', error);
+    return handleError(res, error, 'Error updating review');
+  }
+};
+
+// Delete a review
+export const deleteReview = async (req, res) => {
+  try {
+    const { propertyId, reviewId } = req.params;
+    const deleted = await Review.findOneAndDelete({ _id: reviewId, propertyId });
+    if (!deleted) return res.status(404).json({ success: false, message: 'Review not found' });
+    return res.status(200).json({ success: true, message: 'Review deleted successfully' });
+  } catch (error) {
+    console.error('Error in deleteReview:', error);
+    return handleError(res, error, 'Error deleting review');
+  }
+};
+
+// -------- PERFORMANCE (Admin) --------
+export const getPropertyPerformance = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+
+    // Ensure property exists
+    const property = await Property.findById(propertyId).select('_id');
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const now = new Date();
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
+
+    // Aggregations in parallel
+    const [
+      totalBookings,
+      revenueAgg,
+      thisMonthAgg,
+      lastMonthAgg,
+      totalRooms
+    ] = await Promise.all([
+      RoomBooking.countDocuments({ propertyId }),
+      RoomBooking.aggregate([
+        { $match: { propertyId: new mongoose.Types.ObjectId(propertyId) } },
+        { $group: { _id: null, revenue: { $sum: { $ifNull: ['$priceSummary.totalAmount', 0] } } } }
+      ]),
+      RoomBooking.countDocuments({ propertyId, createdAt: { $gte: startOfThisMonth, $lte: now } }),
+      RoomBooking.countDocuments({ propertyId, createdAt: { $gte: startOfLastMonth, $lte: endOfLastMonth } }),
+      PropertyRoom.countDocuments({ propertyId })
+    ]);
+
+    // Occupancy: rooms with active stays now
+    const occupiedNow = await RoomBooking.distinct('_id', {
+      propertyId,
+      status: { $in: ['Booked', 'CheckIn'] },
+      'stayDetails.checkInDate': { $lte: now },
+      'stayDetails.expectedCheckOutDate': { $gte: now }
+    });
+    const occupancy = totalRooms > 0 ? Math.round((occupiedNow.length / totalRooms) * 10000) / 100 : 0;
+
+    // Rating via utility (if available)
+    let avgRating = 0;
+    try {
+      const ratingsMap = await calculatePropertyRatings([propertyId]);
+      avgRating = ratingsMap[propertyId]?.rating || 0;
+    } catch (e) {
+      avgRating = 0;
+    }
+
+    const revenue = revenueAgg?.[0]?.revenue || 0;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        cards: {
+          totalBookings,
+          revenue,
+          avgRating: Math.round(avgRating * 10) / 10,
+          occupancy
+        },
+        trends: {
+          thisMonth: thisMonthAgg,
+          lastMonth: lastMonthAgg
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error in getPropertyPerformance:', error);
+    return handleError(res, error, 'Error fetching performance');
+  }
+};
+
+// -------- DOCUMENTS (Admin) --------
+// Summary for documents
+export const getPropertyDocumentsSummary = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const property = await Property.findById(propertyId).select('documents').lean();
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const docs = Array.isArray(property.documents) ? property.documents : [];
+    const total = docs.length;
+    const verified = docs.filter(d => d.status === 'Verified').length;
+    const pending = docs.filter(d => d.status === 'Pending').length;
+    const rejected = docs.filter(d => d.status === 'Rejected').length;
+
+    res.status(200).json({ success: true, data: { total, verified, pending, rejected } });
+  } catch (error) {
+    console.error('Error in getPropertyDocumentsSummary:', error);
+    return handleError(res, error, 'Error getting documents summary');
+  }
+};
+
+// Get documents list
+export const getPropertyDocuments = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const property = await Property.findById(propertyId).select('documents').lean();
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: property.documents || [] });
+  } catch (error) {
+    console.error('Error in getPropertyDocuments:', error);
+    return handleError(res, error, 'Error fetching documents');
+  }
+};
+
+// Add documents (array)
+export const addPropertyDocuments = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { documents = [] } = req.body;
+    if (!Array.isArray(documents) || documents.length === 0) {
+      return res.status(400).json({ success: false, message: 'documents array is required' });
+    }
+
+    const docs = documents.map(d => ({
+      name: d.name,
+      documentType: d.documentType,
+      documentUrl: d.documentUrl,
+      status: d.status || 'Pending',
+      expiresAt: d.expiresAt
+    }));
+
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $push: { documents: { $each: docs } } },
+      { new: true, runValidators: true }
+    ).select('documents');
+
+    if (!updated) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: updated.documents });
+  } catch (error) {
+    console.error('Error in addPropertyDocuments:', error);
+    return handleError(res, error, 'Error adding documents');
+  }
+};
+
+// Update a single document by documentId
+export const updatePropertyDocument = async (req, res) => {
+  try {
+    const { propertyId, documentId } = req.params;
+    const { name, documentType, documentUrl, status, expiresAt } = req.body;
+
+    const property = await Property.findById(propertyId);
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const doc = property.documents.id(documentId);
+    if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
+
+    if (name !== undefined) doc.name = name;
+    if (documentType !== undefined) doc.documentType = documentType;
+    if (documentUrl !== undefined) doc.documentUrl = documentUrl;
+    if (status !== undefined) doc.status = status;
+    if (expiresAt !== undefined) doc.expiresAt = expiresAt;
+
+    await property.save();
+    res.status(200).json({ success: true, data: property.documents });
+  } catch (error) {
+    console.error('Error in updatePropertyDocument:', error);
+    return handleError(res, error, 'Error updating document');
+  }
+};
+
+// Bulk update document statuses
+export const updatePropertyDocumentStatuses = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { documents } = req.body; // [{documentId, status}]
+    if (!Array.isArray(documents) || documents.length === 0) {
+      return res.status(400).json({ success: false, message: 'documents array is required' });
+    }
+
+    const property = await Property.findById(propertyId).select('documents');
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const map = new Map(documents.map(u => [String(u.documentId), u.status]));
+    property.documents = property.documents.map(d => {
+      const id = String(d._id);
+      if (map.has(id)) d.status = map.get(id);
+      return d;
+    });
+    await property.save();
+
+    res.status(200).json({ success: true, data: property.documents });
+  } catch (error) {
+    console.error('Error in updatePropertyDocumentStatuses:', error);
+    return handleError(res, error, 'Error updating document statuses');
+  }
+};
+
+// Delete a single document
+export const deletePropertyDocument = async (req, res) => {
+  try {
+    const { propertyId, documentId } = req.params;
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $pull: { documents: { _id: documentId } } },
+      { new: true }
+    ).select('documents');
+    if (!updated) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: updated.documents });
+  } catch (error) {
+    console.error('Error in deletePropertyDocument:', error);
+    return handleError(res, error, 'Error deleting document');
+  }
+};
+
+// -------- MEDIA (Admin) --------
+// Media summary cards for a property
+export const getPropertyMediaSummary = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const property = await Property.findById(propertyId).select('photos videos').lean();
+    if (!property) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    const photos = Array.isArray(property.photos) ? property.photos : [];
+    const totalImages = photos.length;
+    const approved = photos.filter(p => p.status === 'Approved').length;
+    const pending = photos.filter(p => p.status !== 'Approved').length;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalImages,
+        approved,
+        pending,
+        minimumRequired: 15
+      }
+    });
+  } catch (error) {
+    console.error('Error in getPropertyMediaSummary:', error);
+    return handleError(res, error, 'Error getting media summary');
+  }
+};
+
+// Add photos (array of {name,url})
+export const addPropertyMediaPhotos = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { photos = [] } = req.body;
+    if (!Array.isArray(photos) || photos.length === 0) {
+      return res.status(400).json({ success: false, message: 'photos array is required' });
+    }
+
+    // Normalize to include status
+    const docs = photos.map(p => ({ name: p.name, url: p.url, status: p.status || 'Pending' }));
+
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $push: { photos: { $each: docs } } },
+      { new: true, runValidators: true }
+    ).select('photos');
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    res.status(200).json({ success: true, data: updated.photos });
+  } catch (error) {
+    console.error('Error in addPropertyMediaPhotos:', error);
+    return handleError(res, error, 'Error adding photos');
+  }
+};
+
+// Update photo status (bulk by subdoc _id)
+export const updatePropertyPhotoStatuses = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { photos } = req.body; // [{photoId, status}]
+    if (!Array.isArray(photos) || photos.length === 0) {
+      return res.status(400).json({ success: false, message: 'photos array is required' });
+    }
+
+    const property = await Property.findById(propertyId).select('photos');
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+
+    const map = new Map(photos.map(u => [String(u.photoId), u.status]));
+    property.photos = property.photos.map(p => {
+      const id = String(p._id);
+      if (map.has(id)) {
+        p.status = map.get(id);
+      }
+      return p;
+    });
+    await property.save();
+
+    res.status(200).json({ success: true, data: property.photos });
+  } catch (error) {
+    console.error('Error in updatePropertyPhotoStatuses:', error);
+    return handleError(res, error, 'Error updating photo statuses');
+  }
+};
+
+// Delete a single photo by photoId
+export const deletePropertyMediaPhoto = async (req, res) => {
+  try {
+    const { propertyId, photoId } = req.params;
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $pull: { photos: { _id: photoId } } },
+      { new: true }
+    ).select('photos');
+
+    if (!updated) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: updated.photos });
+  } catch (error) {
+    console.error('Error in deletePropertyMediaPhoto:', error);
+    return handleError(res, error, 'Error deleting photo');
+  }
+};
+
+// List videos
+export const getPropertyVideos = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const property = await Property.findById(propertyId).select('videos').lean();
+    if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: property.videos || [] });
+  } catch (error) {
+    console.error('Error in getPropertyVideos:', error);
+    return handleError(res, error, 'Error fetching videos');
+  }
+};
+
+// Add videos (array of {title,url,thumbnail})
+export const addPropertyVideos = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { videos = [] } = req.body;
+    if (!Array.isArray(videos) || videos.length === 0) {
+      return res.status(400).json({ success: false, message: 'videos array is required' });
+    }
+    const docs = videos.map(v => ({ title: v.title, url: v.url, thumbnail: v.thumbnail, status: v.status || 'Pending' }));
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $push: { videos: { $each: docs } } },
+      { new: true, runValidators: true }
+    ).select('videos');
+    if (!updated) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: updated.videos });
+  } catch (error) {
+    console.error('Error in addPropertyVideos:', error);
+    return handleError(res, error, 'Error adding videos');
+  }
+};
+
+// Delete a single video by videoId
+export const deletePropertyVideo = async (req, res) => {
+  try {
+    const { propertyId, videoId } = req.params;
+    const updated = await Property.findByIdAndUpdate(
+      propertyId,
+      { $pull: { videos: { _id: videoId } } },
+      { new: true }
+    ).select('videos');
+    if (!updated) return res.status(404).json({ success: false, message: 'Property not found' });
+    res.status(200).json({ success: true, data: updated.videos });
+  } catch (error) {
+    console.error('Error in deletePropertyVideo:', error);
+    return handleError(res, error, 'Error deleting video');
+  }
 };
 
 // Get all properties with filters
