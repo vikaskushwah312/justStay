@@ -99,6 +99,66 @@ export const getRevenueFeed = async (req, res) => {
   }
 };
 
+export const getRevenueList = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, propertyId, from, to, sort = '-createdAt' } = req.query;
+
+    const filter = {};
+    if (status) filter.status = status;
+    if (propertyId && mongoose.Types.ObjectId.isValid(propertyId)) filter.propertyId = new mongoose.Types.ObjectId(propertyId);
+    if (from || to) {
+      filter.createdAt = {};
+      if (from) filter.createdAt.$gte = parseDate(from);
+      if (to) filter.createdAt.$lte = new Date(`${to}T23:59:59.999Z`);
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const [rows, total] = await Promise.all([
+      Settlement.find(filter).sort(sort).skip(skip).limit(Number(limit)).lean(),
+      Settlement.countDocuments(filter),
+    ]);
+
+    const normalize = (s) => ({
+      _id: s?._id || null,
+      status: s?.status || 'processing',
+      amount: s?.amount ?? 0,
+      currency: s?.currency || 'INR',
+      method: s?.method || '',
+      settlementType: s?.settlementType || '',
+      referenceId: s?.referenceId || '',
+      paidAt: s?.paidAt || null,
+      createdAt: s?.createdAt || null,
+      updatedAt: s?.updatedAt || null,
+      bank: {
+        ifsc: s?.bank?.ifsc || '',
+        accountName: s?.bank?.accountName || '',
+        accountMask: s?.bank?.accountMask || '',
+      },
+      timeline: Array.isArray(s?.timeline)
+        ? s.timeline.map((t) => ({ at: t?.at || null, status: t?.status || '', note: t?.note || '', referenceId: t?.referenceId || '' }))
+        : [],
+      links: {
+        settlement: s?._id ? `/settlements/${s._id}` : '',
+      },
+    });
+
+    const data = rows.map(normalize);
+    return res.status(200).json({
+      success: true,
+      data,
+      pagination: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / Number(limit)),
+      },
+    });
+  } catch (error) {
+    console.error('Error getRevenueList:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
 export const getBookingRevenueDetail = async (req, res) => {
   try {
     const { bookingId } = req.params;

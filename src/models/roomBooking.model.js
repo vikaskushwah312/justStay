@@ -7,6 +7,8 @@ const { Schema } = mongoose;
 // -----------------------------------------
 const bookingTypes = ["Online", "Manual"];
 const bookingStatuses = ["Booked", "CheckIn", "CheckOut", "Cancel"];
+const paymentStatuses = ["pending", "paid", "failed", "refunded", "partial"];
+const bookingSources = ["JustStay App", "Website", "Booking.com", "Expedia", "OTA"];
 
 // -----------------------------------------
 // SUB-SCHEMAS
@@ -59,14 +61,32 @@ const priceSummarySchema = new Schema({
   roomPrice: { type: Number, default: 0 },
   foodPrice: { type: Number, default: 0 },
   taxAndServiceFees: { type: Number, default: 0 },
+  discount: { type: Number, default: 0 },
+  platformFee: { type: Number, default: 0 },
   totalAmount: { type: Number, default: 0 },
 });
+
+const refundSchema = new Schema({
+  status: { type: String, enum: ["none", "requested", "approved", "processed", "rejected"], default: "none" },
+  amount: { type: Number, default: 0 },
+  reason: { type: String },
+  processedAt: { type: Date }
+}, { _id: false });
+
+const disputeSchema = new Schema({
+  status: { type: String, enum: ["none", "open", "resolved", "rejected"], default: "none" },
+  reason: { type: String },
+  notes: { type: String },
+  openedAt: { type: Date },
+  resolvedAt: { type: Date }
+}, { _id: false });
 
 // -----------------------------------------
 // MAIN SCHEMA
 // -----------------------------------------
 const roomBookingSchema = new Schema(
   {
+    bookingCode: { type: String, trim: true },
     //online =customer books via website
     //manual= Hotelire does the booking for customer
     userId: {
@@ -86,6 +106,10 @@ const roomBookingSchema = new Schema(
       default: "Online",
     },
 
+    source: { type: String, enum: bookingSources, default: "JustStay App" },
+    paymentStatus: { type: String, enum: paymentStatuses, default: "pending" },
+    isHourly: { type: Boolean, default: false },
+
     status: {
       type: String,
       enum: bookingStatuses,
@@ -103,10 +127,24 @@ const roomBookingSchema = new Schema(
 
     checkOutDate: { type: Date },
     time: { type: String },
+    actualCheckInAt: { type: Date },
+    actualCheckOutAt: { type: Date },
 
     food: [foodSchema],
 
     priceSummary: priceSummarySchema,
+
+    refund: refundSchema,
+    dispute: disputeSchema,
+
+    paymentInfo: {
+      method: { type: String, trim: true },
+      transactionId: { type: String, trim: true }
+    },
+    adminNotes: { type: String, trim: true, default: '' },
+    specialRequests: { type: String, trim: true, default: '' },
+    voucherUrl: { type: String, trim: true },
+    confirmationSentAt: { type: Date },
   },
   { timestamps: true }
 );

@@ -5,6 +5,7 @@ import propertyRoutes from "./properties.routes.js";
 import propertyTypeRoutes from "./propertyType.routes.js";
 import propertyListTypeRoutes from "./propertyListType.routes.js";
 import verificationRoutes from "./verification.routes.js";
+import bookingManagerRoutes from "./bookingManager.routes.js";
 
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router.use('/properties', propertyRoutes);
 router.use('/property-types', propertyTypeRoutes);
 router.use('/property-list-types', propertyListTypeRoutes);
 router.use('/verification', verificationRoutes);
+router.use('/bookings', bookingManagerRoutes);
 
 
 export default router;

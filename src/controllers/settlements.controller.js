@@ -47,6 +47,7 @@ export const settleNow = async (req, res) => {
     if (typeof amount !== "number") return res.status(400).json({ success: false, message: "amount is required" });
 
     const stl = await Settlement.create({
+      ...req.body,
       userId: userId && mongoose.Types.ObjectId.isValid(userId) ? new mongoose.Types.ObjectId(userId) : undefined,
       propertyId: propertyId && mongoose.Types.ObjectId.isValid(propertyId) ? new mongoose.Types.ObjectId(propertyId) : undefined,
       amount,
@@ -56,7 +57,7 @@ export const settleNow = async (req, res) => {
       timeline: [{ status: "processing", note: notes }],
     });
 
-    res.status(201).json({ success: true, message: "Settlement initiated", data: { id: stl._id, status: stl.status, amount: stl.amount, method: stl.method } });
+    res.status(201).json({ success: true, message: "Settlement initiated", data: stl });
   } catch (error) {
     console.error("Error settleNow:", error);
     res.status(500).json({ success: false, message: "Server error", error: error.message });

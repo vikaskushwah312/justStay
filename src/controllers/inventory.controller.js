@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import RoomInventory from "../models/roomInventory.model.js";
+import PropertyRoom from "../models/propertyRoom.model.js";
 
 const parseISODate = (s) => new Date(`${s}T00:00:00.000Z`);
 const formatISODate = (d) => d.toISOString().slice(0, 10);
@@ -13,28 +14,74 @@ export const getInventoryCalendar = async (req, res) => {
     const end = new Date(start);
     end.setUTCMonth(end.getUTCMonth() + 1);
 
-    const filter = { date: { $gte: start, $lt: end } };
+    // Determine rooms to include
+    let roomFilter = {};
     if (roomId) {
       const roomIds = Array.isArray(roomId) ? roomId : [roomId];
-      filter.roomId = { $in: roomIds.map((id) => new mongoose.Types.ObjectId(id)) };
+      roomFilter._id = { $in: roomIds.map((id) => new mongoose.Types.ObjectId(id)) };
+    } else if (propertyId && mongoose.Types.ObjectId.isValid(propertyId)) {
+      roomFilter.propertyId = new mongoose.Types.ObjectId(propertyId);
     }
-    // propertyId can be supported by joining with PropertyRoom if needed; omitted for brevity
 
-    const rows = await RoomInventory.find(filter).sort({ roomId: 1, date: 1 });
+    const rooms = await PropertyRoom.find(roomFilter).select("_id type price.oneNight").lean();
+    const roomIds = rooms.map(r => r._id);
 
-    const map = new Map();
+    // Pull inventory for the month for those rooms
+    const invFilter = { date: { $gte: start, $lt: end } };
+    if (roomIds.length > 0) invFilter.roomId = { $in: roomIds };
+    const rows = await RoomInventory.find(invFilter).sort({ roomId: 1, date: 1 }).lean();
+
+    // Build date keys for the whole month
+    const dates = [];
+    for (let d = new Date(start); d < end; d.setUTCDate(d.getUTCDate() + 1)) {
+      dates.push(formatISODate(d));
+    }
+
+    // Index inventory by roomId+date
+    const idx = new Map();
     for (const r of rows) {
-      const key = String(r.roomId);
-      if (!map.has(key)) map.set(key, []);
-      map.get(key).push({ date: formatISODate(r.date), allotment: r.allotment, open: r.open, stopSell: r.stopSell });
+      const key = `${String(r.roomId)}|${formatISODate(r.date)}`;
+      idx.set(key, r);
     }
 
-    const data = Array.from(map.entries()).map(([rid, days]) => ({ roomId: rid, days }));
+    // Compose response per room
+    const data = rooms.map((room) => {
+      const days = dates.map((dt) => {
+        const rec = idx.get(`${String(room._id)}|${dt}`);
+        return {
+          date: dt,
+          allotment: rec?.allotment ?? 0,
+          open: rec?.open ?? true,
+          stopSell: rec?.stopSell ?? false,
+        };
+      });
+      return {
+        roomId: String(room._id),
+        roomName: room.type || "",
+        type: room.type || "",
+        open: true,
+        baseRate: room?.price?.oneNight ?? 0,
+        plans: {
+          roomOnly: { price: room?.price?.oneNight ?? 0, hasRate: (room?.price?.oneNight ?? 0) > 0 },
+          cp: { price: null, hasRate: false },
+        },
+        days,
+      };
+    });
 
-    res.status(200).json({ success: true, meta: { month, days: new Date(end - start).getUTCDate() }, data });
+    return res.status(200).json({
+      success: true,
+      meta: {
+        month,
+        from: formatISODate(start),
+        to: formatISODate(new Date(end.getTime() - 86400000)),
+        daysInMonth: dates.length,
+      },
+      data,
+    });
   } catch (error) {
     console.error("Error getInventoryCalendar:", error);
-    res.status(500).json({ success: false, message: "Server error", error: error.message });
+    return res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
 
