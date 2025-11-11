@@ -1,0 +1,5339 @@
+{
+	"info": {
+		"_postman_id": "502daf64-04e0-4349-8ac7-d9cc3c7b4e08",
+		"name": "justStay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25371894",
+		"_collection_link": "https://bbw333.postman.co/workspace/my-workspace~ce20f5cf-c3b9-450a-81da-b3a4395abe96/collection/25371894-502daf64-04e0-4349-8ac7-d9cc3c7b4e08?action=share&source=collection_link&creator=25371894"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"8857375632\",\r\n    \"role\": \"hotelier\" //[\"customer\", \"hotelier\", \"admin\"],\r\n   // \"firstName\": \"customers\",\r\n    //\"lastName\": \"credentials\",\r\n    //\"password\": \"123456\",\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"1231231233\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify-otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phone\": \"8857375633\",\r\n  \"otp\": \"2468\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/verify-otp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resend-otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phone\": 15963258743\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/resend-otp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"resend-otp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hotelier",
+			"item": [
+				{
+					"name": "property",
+					"item": [
+						{
+							"name": "create properties",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// const documentTypes = [\"Electricity\", \"Phone\", \"Aadhar\", \"Pan\"];\r\n// const statusTypes = [\"Under Review\", \"Accepted\", \"Rejected\"];\r\n//const propertyTypes = [ \"Villa\",\"Homestay\",\"Cottage\", \"Apartment\",\"Entire Property\",\"Private Room\",];\r\n{   \r\n    \"status\": \"Under Review\", //const statusTypes = [\"Under Review\", \"Accepted\", \"Rejected\"];\r\n    \"screenNumber\": 1,\r\n    \"userId\": \"690720925ccac6d9000cbeb6\",\r\n    \"propertyId\": \"690723200ccf12235dfe8cc9\", //put first time empty\r\n    \"agreement\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\",\r\n    \"propertyType\": \"Villa\",\r\n    \"propertyListType\": \"Entire Property\", //private room\r\n    \"propertyAmenities\": [\"jim\", \"swimgpool\"],\r\n    \"basicPropertyDetails\": {\r\n        \"name\": \"Ocean View Villa\",\r\n        \"builtYear\": 2023,\r\n        \"bookingSince\": 2023\r\n    },\r\n    \"contactDetails\": {\r\n        \"email\": \"owner@example.com\",\r\n        \"mobile\": \"9876543210\",\r\n        \"landline\": \"01112345678\"\r\n    },\r\n    \"location\": {\r\n        \"house\": \"123\",\r\n        \"area\": \"Marine Drive\",\r\n        \"pincode\": 400001,\r\n        \"city\": \"Mumbai\",\r\n        \"state\": \"Maharashtra\",\r\n        \"country\": \"India\"\r\n    },\r\n    \"documents\": [\r\n        {\r\n            \"documentType\": \"Pan\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"documentType\": \"Aadhar\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ],\r\n    \"photos\": [\r\n        {\r\n            \"name\": \"room\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"name\": \"room\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ],\r\n    \"pan\": {\r\n        \"number\": \"ABCDE1234F\",\r\n        \"front\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\",\r\n        \"back\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n    },\r\n    \"aadhar\": {\r\n        \"number\": \"123456789012\",\r\n        \"front\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\",\r\n        \"back\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n    },\r\n    \"bankDetails\": {\r\n        \"name\": \"John Doe\",\r\n        \"accountNumber\": \"1234567890\",\r\n        \"ifscCode\": \"SBIN0001234\"\r\n    },\r\n    \"gst\": {\r\n        \"number\": \"27ABCDE1234F1Z5\",\r\n        \"front\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\",\r\n        \"back\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n    },\r\n    \"businessLicense\": {\r\n        \"number\": \"BL-123456\",\r\n        \"front\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\",\r\n        \"back\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n    },\r\n    \"trainingAndGuidelines\": \"Follow standard safety guidelines for guests.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/properties",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get property by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// const documentTypes = [\"Electricity\", \"Phone\", \"Aadhar\", \"Pan\"];\r\n// const statusTypes = [\"Under Review\", \"Accepted\", \"Rejected\"];\r\n//const propertyTypes = [ \"Villa\",\"Homestay\",\"Cottage\", \"Apartment\",\"Entire Property\",\"Private Room\",];\r\n//note: NOT Required\r\n{   \r\n    \"userId\": \"68fcaab07986af2973daf938\",\r\n    \"propertyType\": \"Villa\",\r\n    \"basicPropertyDetails\": {\r\n        \"name\": \"Ocean View Villa\",\r\n        \"builtYear\": 2023,\r\n        \"bookingSince\": 2023\r\n    },\r\n    \"contactDetails\": {\r\n        \"email\": \"owner@example.com\",\r\n        \"mobile\": \"9876543210\",\r\n        \"landline\": \"01112345678\"\r\n    },\r\n    \"location\": {\r\n        \"house\": \"123\",\r\n        \"area\": \"Marine Drive\",\r\n        \"pincode\": 400001,\r\n        \"city\": \"Mumbai\",\r\n        \"state\": \"Maharashtra\",\r\n        \"country\": \"India\"\r\n    },\r\n    \"documents\": [\r\n        {\r\n            \"documentType\": \"Pan\",\r\n            \"documentUrl\": \"https://example.com/documents/pan.pdf\"\r\n        },\r\n        {\r\n            \"documentType\": \"Aadhar\",\r\n            \"documentUrl\": \"https://example.com/documents/aadhar.pdf\"\r\n        }\r\n    ],\r\n    \"photos\": [\r\n        \"https://example.com/photos/photo1.jpg\",\r\n        \"https://example.com/photos/photo2.jpg\"\r\n    ],\r\n    \"pan\": {\r\n        \"number\": \"ABCDE1234F\",\r\n        \"front\": \"https://example.com/pan_front.jpg\",\r\n        \"back\": \"https://example.com/pan_back.jpg\"\r\n    },\r\n    \"aadhar\": {\r\n        \"number\": \"123456789012\",\r\n        \"front\": \"https://example.com/aadhar_front.jpg\",\r\n        \"back\": \"https://example.com/aadhar_back.jpg\"\r\n    },\r\n    \"bankDetails\": {\r\n        \"name\": \"John Doe\",\r\n        \"accountNumber\": \"1234567890\",\r\n        \"ifscCode\": \"SBIN0001234\"\r\n    },\r\n    \"gst\": {\r\n        \"number\": \"27ABCDE1234F1Z5\",\r\n        \"front\": \"https://example.com/gst_front.jpg\",\r\n        \"back\": \"https://example.com/gst_back.jpg\"\r\n    },\r\n    \"businessLicense\": {\r\n        \"number\": \"BL-123456\",\r\n        \"front\": \"https://example.com/license_front.jpg\",\r\n        \"back\": \"https://example.com/license_back.jpg\"\r\n    },\r\n    \"trainingAndGuidelines\": \"Follow standard safety guidelines for guests.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/properties",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"properties"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "rooms",
+					"item": [
+						{
+							"name": "create room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// type = [ \"Standard\",\"Deluxe\", \"Super Deluxe\",\"Suite\",\"Executive Suite\",\"Family Room\",\"Presidential Suite\"];\r\n{   \r\n   \"userId\": \"690720925ccac6d9000cbeb6\",\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"type\": \"Deluxe\",\r\n  \"area\": 400,\r\n  \"bed\": 2,\r\n  \"bathroom\": 1,\r\n  \"numberOfRooms\": 3,\r\n  \"price\": {\r\n    \"oneNight\": 3500,\r\n    \"threeHours\": 900,\r\n    \"sixHours\": 1700\r\n  },\r\n  \"photos\": [\r\n    \"https://example.com/room1.jpg\",\r\n    \"https://example.com/room2.jpg\"\r\n  ],\r\n  \"amenities\": [\"WiFi\", \"Television\", \"Room Service\", \"Air Conditioning\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room by room id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n   \"userId\": \"68fcaab07986af2973daf938\",\r\n  \"propertyId\": \"68fcbe86a68e51545d3e702c\",\r\n  \"type\": \"Deluxe\",\r\n  \"area\": 500,\r\n  \"bed\": 2,\r\n  \"bathroom\": 1,\r\n  \"numberOfRooms\": 3,\r\n  \"price\": {\r\n    \"oneNight\": 3600,\r\n    \"threeHours\": 900,\r\n    \"sixHours\": 1700\r\n  },\r\n  \"photos\": [\r\n    \"https://example.com/room1.jpg\",\r\n    \"https://example.com/room2.jpg\"\r\n  ],\r\n  \"amenities\": [\"WiFi\", \"Television\", \"Room Service\", \"Air Conditioning\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/rooms/68fdd8d2c430d23ab82d8f88",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"68fdd8d2c430d23ab82d8f88"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all room by property id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n   \"userId\": \"68fcaab07986af2973daf938\",\r\n  \"propertyId\": \"68fcbe86a68e51545d3e702c\",\r\n  \"type\": \"Deluxe\",\r\n  \"area\": 500,\r\n  \"bed\": 2,\r\n  \"bathroom\": 1,\r\n  \"numberOfRooms\": 3,\r\n  \"price\": {\r\n    \"oneNight\": 3600,\r\n    \"threeHours\": 900,\r\n    \"sixHours\": 1700\r\n  },\r\n  \"photos\": [\r\n    \"https://example.com/room1.jpg\",\r\n    \"https://example.com/room2.jpg\"\r\n  ],\r\n  \"amenities\": [\"WiFi\", \"Television\", \"Room Service\", \"Air Conditioning\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/rooms?propertyId=68fcbe86a68e51545d3e702c",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"rooms"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "68fcbe86a68e51545d3e702c"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get room by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n   \"userId\": \"68fcaab07986af2973daf938\",\r\n  \"propertyId\": \"68fcbe86a68e51545d3e702c\",\r\n  \"type\": \"Deluxe\",\r\n  \"area\": 500,\r\n  \"bed\": 2,\r\n  \"bathroom\": 1,\r\n  \"numberOfRooms\": 3,\r\n  \"price\": {\r\n    \"oneNight\": 3600,\r\n    \"threeHours\": 900,\r\n    \"sixHours\": 1700\r\n  },\r\n  \"photos\": [\r\n    \"https://example.com/room1.jpg\",\r\n    \"https://example.com/room2.jpg\"\r\n  ],\r\n  \"amenities\": [\"WiFi\", \"Television\", \"Room Service\", \"Air Conditioning\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/rooms/68fdd8d2c430d23ab82d8f88",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"68fdd8d2c430d23ab82d8f88"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get room by id Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/rooms/68fdd8d2c430d23ab82d8f88",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"68fdd8d2c430d23ab82d8f88"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "book Room",
+					"item": [
+						{
+							"name": "book room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"690722900ccf12235dfe8cc5\",\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"type\": \"Manual\", //const bookingTypes = [\"Online\", \"Manual\"];\r\n  \"status\": \"Booked\", //const bookingStatuses = [\"Booked\", \"CheckIn\", \"CheckOut\", \"Cancel\"];\r\n  \"guestDetails\": {\r\n    \"name\": \"Ravi Kumar\",\r\n    \"fatherOrSpouseName\": \"Ram\",\r\n    \"address\": \"Indore\",\r\n    \"pincode\": \"452015\",\r\n    \"city\": \"indore\",\r\n    \"state\": \"state\",\r\n    \"gender\": \"Male\",\r\n    \"age\": 30,\r\n    \"phone\": \"9876543210\",\r\n    \"email\": \"ravi@gmail.com\"\r\n  },\r\n  \"identificationProof\": {\r\n    \"type\": \"Aadhar\",\r\n    \"number\": \"1234-5678-9999\",\r\n    \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n  },\r\n  \"stayDetails\": {\r\n    \"roomNumber\": \"102\",\r\n    \"roomType\": \"Deluxe\",\r\n    \"adults\": 2,\r\n    \"children\": 1,\r\n    \"checkInDate\": \"2025-10-26T10:00:00Z\",\r\n    \"checkInTime\": \"10 PM\",\r\n    \"expectedCheckOutDate\": \"2025-10-28T10:00:00Z\",\r\n    \"expectedCheckOutTime\": \"10 pm\",\r\n    \"purposeOfVisit\": \"Time Pass\"\r\n  },\r\n  \"coGuestDetails\": [\r\n    {\r\n        \"name\": \"Ravi Kumar2\",\r\n        \"idType\": \"Aadhar\",\r\n        \"number\": \"ABCXYZ\",\r\n        \"idUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n    }\r\n\r\n  ],\r\n  \"food\": [\r\n    { \"name\": \"Breakfast\", \"quantity\": 2 },\r\n    { \"name\": \"Dinner\", \"quantity\": 2 }\r\n  ],\r\n  \"priceSummary\": {\r\n    \"roomPrice\": 4500,\r\n    \"foodPrice\": 1200,\r\n    \"taxAndServiceFees\": 300,\r\n    \"totalAmount\": 6000\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/room-bookings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"room-bookings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n//   \"userId\": \"68fdd8c9c430d23ab82d8f86\",\r\n//   \"propertyId\": \"671b15f8dc78b222c3b4a891\",\r\n//   \"type\": \"Online\",\r\n  \"status\": \"CheckIn\"\r\n//   \"guestDetails\": {\r\n//     \"name\": \"Ravi Kumarss\",\r\n//     \"gender\": \"Male\",\r\n//     \"age\": 30,\r\n//     \"phone\": \"9876543210\",\r\n//     \"email\": \"ravi@gmail.com\"\r\n//   },\r\n//   \"identificationProof\": {\r\n//     \"type\": \"Aadhar\",\r\n//     \"number\": \"1234-5678-9999\",\r\n//     \"documentUrl\": \"https://example.com/aadhar.png\"\r\n//   },\r\n//   \"stayDetails\": {\r\n//     \"roomNumber\": \"102\",\r\n//     \"roomType\": \"Deluxe\",\r\n//     \"adults\": 2,\r\n//     \"children\": 1,\r\n//     \"checkInDate\": \"2025-10-26T10:00:00Z\",\r\n//     \"expectedCheckOutDate\": \"2025-10-28T10:00:00Z\"\r\n//   },\r\n//   \"coGuestDetails\":{\r\n//     \"name\": \"rma\"\r\n//   },\r\n//   \"food\": [\r\n//     { \"name\": \"Breakfast\", \"quantity\": 2 },\r\n//     { \"name\": \"Dinner\", \"quantity\": 2 }\r\n//   ],\r\n//   \"priceSummary\": {\r\n//     \"roomPrice\": 4500,\r\n//     \"foodPrice\": 1200,\r\n//     \"taxAndServiceFees\": 300,\r\n//     \"totalAmount\": 6000\r\n//   }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/room-bookings/6905ea1fe2e81820c9075369",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"room-bookings",
+										"6905ea1fe2e81820c9075369"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get booking details by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/room-bookings/6905ea1fe2e81820c9075369",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"room-bookings",
+										"6905ea1fe2e81820c9075369"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get All booking details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Status here \r\n// Booked = upcoming\r\n// checkin = ongoing\r\n// checkout = past Booking || completed \r\n// cancel = cancelled || Booked online but cancelled before checkin\r\n// userId=&propertyId=&status\r\n{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/room-bookings?userId=68fdd8c9c430d23ab82d8f86",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"room-bookings"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "68fdd8c9c430d23ab82d8f86"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete room",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Status here \r\n// Booked = upcoming\r\n// checkin = ongoing\r\n// checkout = past Booking || completed \r\n// cancel = cancelled || Booked online but cancelled before checkin\r\n// userId=&propertyId=&status\r\n{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/room-bookings/68ff07bfeaf00e030e7515c7",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"room-bookings",
+										"68ff07bfeaf00e030e7515c7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reviews",
+					"item": [
+						{
+							"name": "create review",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n  \"userId\": \"6905f1445151d4e64a811e1a\",\r\n  \"propertyId\": \"68fcbe86a68e51545d3e702c\",\r\n  \"roomId\": \"68fdd8c9c430d23ab82d8f86\",\r\n  \"bookingId\": \"68ff0e4a4e399be77fa5f361\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Very comfortable and convenient.\",\r\n  \"images\": [\"uploads/photos/1698850022-12345.jpg\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/reviews",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get review by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n  \"userId\": \"6905f1445151d4e64a811e1a\",\r\n  \"propertyId\": \"671f1a...abc\",\r\n  \"roomId\": \"6720ab...def\",\r\n  \"bookingId\": \"6720ac...ghi\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Very comfortable and convenient.\",\r\n  \"images\": [\"uploads/photos/1698850022-12345.jpg\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/reviews/69062818e3e603ea8e8237a0",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"reviews",
+										"69062818e3e603ea8e8237a0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all api by reivew",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n  \"userId\": \"6905f1445151d4e64a811e1a\",\r\n  \"propertyId\": \"671f1a...abc\",\r\n  \"roomId\": \"6720ab...def\",\r\n  \"bookingId\": \"6720ac...ghi\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Very comfortable and convenient.\",\r\n  \"images\": [\"uploads/photos/1698850022-12345.jpg\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/reviews?page=1&limit=10&bookingId=68ff0e4a4e399be77fa5f361&userId=6905f1445151d4e64a811e1a",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"reviews"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "bookingId",
+											"value": "68ff0e4a4e399be77fa5f361"
+										},
+										{
+											"key": "userId",
+											"value": "6905f1445151d4e64a811e1a"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reply to a Review (Hotelier/Admin)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"message\": \"Thank you for staying with uss!\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/reviews/690623855d7dfeda946867a8/reply",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"reviews",
+										"690623855d7dfeda946867a8",
+										"reply"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Review (Owner/Admin/Hotelier)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690623855d7dfeda946867a8\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eden}}/api/reviews/690623855d7dfeda946867a8",
+									"host": [
+										"{{eden}}"
+									],
+									"path": [
+										"api",
+										"reviews",
+										"690623855d7dfeda946867a8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cancellation & Refund",
+					"item": [
+						{
+							"name": "cancel request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookingId\": \"690724320ccf12235dfe8cdb\",\r\n    \"userId\": \"690722900ccf12235dfe8cc5\",\r\n    \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n    \"reason\": \"Change of plans\",\r\n    \"policy\": \"Non-refundable but goodwill\",\r\n    \"priceSummary\": {\r\n        \"basePrice\": 12480,\r\n        \"discount\": 5480,\r\n        \"taxAndFees\": 1480,\r\n        \"totalPaid\": 8480,\r\n        \"currency\": \"INR\"\r\n    },\r\n    \"calculation\": {\r\n        \"cancellationFee\": 0,\r\n        \"refundableAmount\": 8480\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list of cancels Booking",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations?page=1&limit=10&propertyId=\"690723200ccf12235dfe8cc9\"",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "propertyId",
+											"value": "\"690723200ccf12235dfe8cc9\""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get cancels by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations/690ae9d8ff7b50f2dad449b7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations",
+										"690ae9d8ff7b50f2dad449b7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "review cancellation booking",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"reviewerId\": \"690720925ccac6d9000cbeb6\", //hotelier or admin id\r\n  \"action\": \"approve\",\r\n  \"cancellationFee\": 0,\r\n  \"refundableAmount\": 8480,\r\n  \"notes\": \"Full refund as goodwill\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations/690ae9d8ff7b50f2dad449b7/review",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations",
+										"690ae9d8ff7b50f2dad449b7",
+										"review"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Initiate Refund",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"operatorId\": \"690720925ccac6d9000cbeb6\", //hotelier or admin id \r\n    \"method\": \"Original\",\r\n    \"transactionId\": \"PG-TXN-001\",\r\n    \"notes\": \"Initiated via gateway\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations/690ae9d8ff7b50f2dad449b7/refund/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations",
+										"690ae9d8ff7b50f2dad449b7",
+										"refund",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "complete Refund",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"operatorId\": \"690720925ccac6d9000cbeb6\", //hotelier or admin id \r\n    \"transactionId\": \"PG-TXN-001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations/690ae9d8ff7b50f2dad449b7/refund/complete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations",
+										"690ae9d8ff7b50f2dad449b7",
+										"refund",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update price calculations",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cancellationFee\": 500,\r\n    \"refundableAmount\": 7980\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cancellations/690ae9d8ff7b50f2dad449b7/calc",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cancellations",
+										"690ae9d8ff7b50f2dad449b7",
+										"calc"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Room price & promotions",
+					"item": [
+						{
+							"name": "get all room by property id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n   \"userId\": \"68fcaab07986af2973daf938\",\r\n  \"propertyId\": \"68fcbe86a68e51545d3e702c\",\r\n  \"type\": \"Deluxe\",\r\n  \"area\": 500,\r\n  \"bed\": 2,\r\n  \"bathroom\": 1,\r\n  \"numberOfRooms\": 3,\r\n  \"price\": {\r\n    \"oneNight\": 3600,\r\n    \"threeHours\": 900,\r\n    \"sixHours\": 1700\r\n  },\r\n  \"photos\": [\r\n    \"https://example.com/room1.jpg\",\r\n    \"https://example.com/room2.jpg\"\r\n  ],\r\n  \"amenities\": [\"WiFi\", \"Television\", \"Room Service\", \"Air Conditioning\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms?propertyId=690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get room price",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/rooms/690723ed0ccf12235dfe8cd9/pricing",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"690723ed0ccf12235dfe8cd9",
+										"pricing"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room priceing full",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//full\r\n{\r\n  \"price\": { \"oneNight\": 3600, \"threeHours\": 1300, \"sixHours\": 2100 },\r\n  \"discounts\": { \"oneNightPercent\": 5, \"threeHoursPercent\": 0, \"sixHoursPercent\": 5 },\r\n  \"promo\": {\r\n    \"code\": \"WELCOME5\",\r\n    \"discountPercent\": 5,\r\n    \"validFrom\": \"2025-11-01T00:00:00.000Z\",\r\n    \"validTo\": \"2025-11-15T23:59:59.999Z\",\r\n    \"isActive\": true\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms/690723ed0ccf12235dfe8cd9/pricing",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"690723ed0ccf12235dfe8cd9",
+										"pricing"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room priceing Partial",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//partial\r\n{ \"oneNight\": 3800, \"threeHours\": 1400, \"sixHours\": 2200 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms/690723ed0ccf12235dfe8cd9/price",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"690723ed0ccf12235dfe8cd9",
+										"price"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room priceing discounts",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oneNightPercent\": 10,\r\n    \"threeHoursPercent\": 0,\r\n    \"sixHoursPercent\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms/690723ed0ccf12235dfe8cd9/discounts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"690723ed0ccf12235dfe8cd9",
+										"discounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update room promo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"code\": \"NEWYEAR20\",\r\n    \"discountPercent\": 20,\r\n    \"validFrom\": \"2025-12-25T00:00:00.000Z\",\r\n    \"validTo\": \"2026-01-05T23:59:59.999Z\",\r\n    \"isActive\": true \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms/690723ed0ccf12235dfe8cd9/promo",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"690723ed0ccf12235dfe8cd9",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rate & inventory",
+					"item": [
+						{
+							"name": "Rate",
+							"item": [
+								{
+									"name": "Get Rates Calendar (effective prices)",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/rates/calendar?month=2025-10",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"rates",
+												"calendar"
+											],
+											"query": [
+												{
+													"key": "month",
+													"value": "2025-10"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Rate Overrides for a Room",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/rates/room/690723ed0ccf12235dfe8cd9",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"rates",
+												"room",
+												"690723ed0ccf12235dfe8cd9"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Rate Overrides for a Room Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/rates/day/690723ed0ccf12235dfe8cd9/2025-12-27/cp?overrideLevel=override",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"rates",
+												"day",
+												"690723ed0ccf12235dfe8cd9",
+												"2025-12-27",
+												"cp"
+											],
+											"query": [
+												{
+													"key": "overrideLevel",
+													"value": "override"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Rates Calendar (effective prices)",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "/*\r\nroomId ObjectId\r\ndate YYYY-MM-DD\r\nplan RO|CP|MAP|AP|OTHER\r\n*/\r\n{\r\n    \"price\": 1200,\r\n    \"extraAdultPrice\": 400,\r\n    \"extraChildPrice\": 200,\r\n    \"taxIncluded\": true,\r\n    \"currency\": \"INR\",\r\n    \"overrideLevel\": \"override\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/rates/day/690723ed0ccf12235dfe8cd9/2025-12-27/cp",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"rates",
+												"day",
+												"690723ed0ccf12235dfe8cd9",
+												"2025-12-27",
+												"cp"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "get inventory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cancellationFee\": 500,\r\n    \"refundableAmount\": 7980\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/inventory/calendar?month=2025-12",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"calendar"
+									],
+									"query": [
+										{
+											"key": "month",
+											"value": "2025-12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upsert Daily Inventory (single day)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"allotment\": 5,\r\n    \"open\": true,\r\n    \"stopSell\": false,\r\n    \"notes\": \"Weekend\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/inventory/day/690724320ccf12235dfe8cdb/2025-12-01",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"day",
+										"690724320ccf12235dfe8cdb",
+										"2025-12-01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Toggle Open/Close (date range",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"roomIds\": [\r\n        \"690723ed0ccf12235dfe8cd9\"\r\n    ],\r\n    \"dateFrom\": \"2025-12-27\",\r\n    \"dateTo\": \"2025-12-30\",\r\n    \"open\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/inventory/toggle",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"toggle"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "payment and revenue",
+					"item": [
+						{
+							"name": "summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/revenue/summary?propertyId=690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"revenue",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "feed",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/revenue/feed?propertyId=690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"revenue",
+										"feed"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "revenue booking",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/revenue/booking/690724320ccf12235dfe8cdb",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"revenue",
+										"booking",
+										"690724320ccf12235dfe8cdb"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get revenue list",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/revenue/list?propertyId=690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"revenue",
+										"list"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification",
+					"item": [
+						{
+							"name": "create notification",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\",\r\n    \"title\": \"New Booking Received\",\r\n    \"message\": \"Room #301 booked by Rajesh Kumar for 2 nights – ₹4,500\",\r\n    \"type\": \"booking\",\r\n    \"category\": \"Booking\",\r\n    \"link\": \"/bookings/6720b...\",\r\n    \"meta\": {\r\n        \"bookingId\": \"690724320ccf12235dfe8cdb\",\r\n        \"room\": \"Deluxe\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get notification list",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"671fUser...\",\r\n    \"title\": \"New Booking Received\",\r\n    \"message\": \"Room #301 booked by Rajesh Kumar for 2 nights – ₹4,500\",\r\n    \"type\": \"booking\",\r\n    \"category\": \"Booking\",\r\n    \"link\": \"/bookings/6720b...\",\r\n    \"meta\": {\r\n        \"bookingId\": \"6720b...\",\r\n        \"room\": \"Deluxe\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications?page=1&limit=20&userId=690722900ccf12235dfe8cc5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "userId",
+											"value": "690722900ccf12235dfe8cc5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get notification by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"671fUser...\",\r\n    \"title\": \"New Booking Received\",\r\n    \"message\": \"Room #301 booked by Rajesh Kumar for 2 nights – ₹4,500\",\r\n    \"type\": \"booking\",\r\n    \"category\": \"Booking\",\r\n    \"link\": \"/bookings/6720b...\",\r\n    \"meta\": {\r\n        \"bookingId\": \"6720b...\",\r\n        \"room\": \"Deluxe\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications/690b0bedfcdd82ed460d1e48",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications",
+										"690b0bedfcdd82ed460d1e48"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark Single Notification as Read",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\",\r\n    \"title\": \"New Booking Received\",\r\n    \"message\": \"Room #301 booked by Rajesh Kumar for 2 nights – ₹4,500\",\r\n    \"type\": \"booking\",\r\n    \"category\": \"Booking\",\r\n    \"link\": \"/bookings/6720b...\",\r\n    \"meta\": {\r\n        \"bookingId\": \"690724320ccf12235dfe8cdb\",\r\n        \"room\": \"Deluxe\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications/690b0bedfcdd82ed460d1e48/read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications",
+										"690b0bedfcdd82ed460d1e48",
+										"read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark All as Read (for a user)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications/read-all",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications",
+										"read-all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Archive a Notification",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications/690b0bedfcdd82ed460d1e48/archive",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications",
+										"690b0bedfcdd82ed460d1e48",
+										"archive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete Notification",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/notifications/690b0bedfcdd82ed460d1e48",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"notifications",
+										"690b0bedfcdd82ed460d1e48"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "settlements",
+					"item": [
+						{
+							"name": "settlements",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//status?=pending|processing|paid|delayed|failed\r\n{}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/settlements?propertyId=690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"settlements"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get settlements by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//status?=pending|processing|paid|delayed|failed\r\n{}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/settlements/690b25eacc4b826884aee580",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"settlements",
+										"690b25eacc4b826884aee580"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create settlements by id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"690720925ccac6d9000cbeb6\",\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \r\n  \"amount\": 12500,\r\n  \"currency\": \"INR\",\r\n  \"status\": \"processing\",\r\n  \"method\": \"NEFT\",\r\n  \"settlementType\": \"manual\",\r\n\r\n  \"referenceId\": \"TXN20251110ABC123\",\r\n  \"paidAt\": \"2025-11-10T12:30:00Z\",\r\n\r\n  \"bank\": {\r\n    \"ifsc\": \"HDFC0001234\",\r\n    \"accountName\": \"Vikas Singh Kushwah\",\r\n    \"accountMask\": \"XXXXXX4321\"\r\n  },\r\n\r\n  \"timeline\": [\r\n    {\r\n      \"at\": \"2025-11-08T09:15:00Z\",\r\n      \"status\": \"pending\",\r\n      \"note\": \"Settlement created and pending approval\",\r\n      \"referenceId\": \"INIT001\"\r\n    },\r\n    {\r\n      \"at\": \"2025-11-09T11:45:00Z\",\r\n      \"status\": \"processing\",\r\n      \"note\": \"Payment initiated via NEFT\",\r\n      \"referenceId\": \"BANKREQ123\"\r\n    }\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/settlements/settle-now",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"settlements",
+										"settle-now"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update settlements by id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"delayed\",\r\n    \"note\": \"Delayed due to bank processing\",\r\n    \"referenceId\": \"NEFT-REF-001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/settlements/690b25eacc4b826884aee580/status",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"settlements",
+										"690b25eacc4b826884aee580",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "reports",
+					"item": [
+						{
+							"name": "generate report",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690720925ccac6d9000cbeb6\",\r\n    \"reportType\": \"revenue\",\r\n    \"granularity\": \"weekly\",\r\n    \"from\": \"2025-12-01\",\r\n    \"to\": \"2025-12-31\",\r\n    \"format\": \"csv\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/reports/generate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "generate report status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"671fHotelier...\",\r\n    \"reportType\": \"revenue\",\r\n    \"granularity\": \"weekly\",\r\n    \"from\": \"2025-12-01\",\r\n    \"to\": \"2025-12-31\",\r\n    \"format\": \"csv\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/reports/status/690b2795cc4b826884aee58b",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"status",
+										"690b2795cc4b826884aee58b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "download reports",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"671fHotelier...\",\r\n    \"reportType\": \"revenue\",\r\n    \"granularity\": \"weekly\",\r\n    \"from\": \"2025-12-01\",\r\n    \"to\": \"2025-12-31\",\r\n    \"format\": \"csv\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/reports/download/690b2795cc4b826884aee58b",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"download",
+										"690b2795cc4b826884aee58b"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "analytics",
+					"item": [
+						{
+							"name": "summary",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//period today | this_week | this_month | custom\r\n//If period=custom: from (YYYY-MM-DD), to (YYYY-MM-DD)\r\n{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/analytics/summary?propertyId=690723200ccf12235dfe8cc9&period=custom&from=2025-08-01&to=2025-12-31",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"analytics",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "propertyId",
+											"value": "690723200ccf12235dfe8cc9"
+										},
+										{
+											"key": "period",
+											"value": "custom"
+										},
+										{
+											"key": "from",
+											"value": "2025-08-01"
+										},
+										{
+											"key": "to",
+											"value": "2025-12-31"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "marketing and promotion",
+					"item": [
+						{
+							"name": "marketing",
+							"item": [
+								{
+									"name": "create evemt",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"name\": \"Valentine's Day\",\r\n  \"description\": \"Premium pricing\",\r\n  \"multiplier\": 1.8,\r\n  \"startDate\": \"2025-02-13\",\r\n  \"endDate\": \"2025-02-15\",\r\n  \"status\": \"Scheduled\",\r\n  \"priority\": 5\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/marketing/seasonal",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"marketing",
+												"seasonal"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get event",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"name\": \"Valentine's Day\",\r\n  \"description\": \"Premium pricing\",\r\n  \"multiplier\": 1.8,\r\n  \"startDate\": \"2025-02-13\",\r\n  \"endDate\": \"2025-02-15\",\r\n  \"status\": \"Scheduled\",\r\n  \"priority\": 5\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/marketing/seasonal",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"marketing",
+												"seasonal"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update event",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"name\": \"Valentine's Day\",\r\n  \"description\": \"Premium pricing\",\r\n  \"multiplier\": 1.8,\r\n  \"startDate\": \"2025-02-13\",\r\n  \"endDate\": \"2025-02-15\",\r\n  \"status\": \"Scheduled\",\r\n  \"priority\": 5\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/marketing/seasonal/690b30f565e5ed30d82354f1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"marketing",
+												"seasonal",
+												"690b30f565e5ed30d82354f1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete event",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"name\": \"Valentine's Day\",\r\n  \"description\": \"Premium pricing\",\r\n  \"multiplier\": 1.8,\r\n  \"startDate\": \"2025-02-13\",\r\n  \"endDate\": \"2025-02-15\",\r\n  \"status\": \"Scheduled\",\r\n  \"priority\": 5\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/marketing/seasonal/690b30f565e5ed30d82354f1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"marketing",
+												"seasonal",
+												"690b30f565e5ed30d82354f1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create promotions",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/promotions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"promotions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get promotions",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/promotions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"promotions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get promotions by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/promotions/690b2fa865e5ed30d82354e0",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"promotions",
+										"690b2fa865e5ed30d82354e0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update promotions by id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/promotions/690b2f1965e5ed30d82354d5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"promotions",
+										"690b2f1965e5ed30d82354d5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete promotion",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/promotions/690b2f1965e5ed30d82354d5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"promotions",
+										"690b2f1965e5ed30d82354d5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "dashboard",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyId\": \"690723200ccf12235dfe8cc9\",\r\n  \"title\": \"Early Bird Special\",\r\n  \"description\": \"Book 30 days in advance\",\r\n  \"promoCode\": \"EARLY25\",\r\n  \"kind\": \"percent\",\r\n  \"discountPercent\": 25,\r\n  \"flatAmount\": 0,\r\n  \"appliesTo\": {\r\n    \"roomIds\": [\"690723ed0ccf12235dfe8cd9\"],\r\n    \"plans\": [\"RO\",\"CP\"],\r\n    \"weekdays\": [\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\"],\r\n    \"minNights\": 2,\r\n    \"audience\": \"all\"\r\n  },\r\n  \"startDate\": \"2025-10-01\",\r\n  \"endDate\": \"2025-12-31\",\r\n  \"status\": \"Scheduled\",\r\n  \"isStackable\": false,\r\n  \"priority\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/marketing/dashboard",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"marketing",
+										"dashboard"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "get profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/profile?userId=690720925ccac6d9000cbeb6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"profile"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "690720925ccac6d9000cbeb6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update profile",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": \"690720925ccac6d9000cbeb6\",\r\n  \"firstName\": \"Hotel\",\r\n  \"lastName\": \"Grand\",\r\n  \"phone\": \"8857375633\",\r\n  \"email\": \"hotelgrandshaphiree@shaphiree.com\",\r\n  \"avatar\": \"uploads/users/u1.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/profile",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update profile Copy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/profile/summary?userId=690720925ccac6d9000cbeb6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"profile",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "690720925ccac6d9000cbeb6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "upload Images",
+			"item": [
+				{
+					"name": "upload photo or document",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "photo",
+									"description": "photo, document",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/BBW/book 1.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer Support",
+			"item": [
+				{
+					"name": "Raise New Ticket",
+					"item": [
+						{
+							"name": "create new ticket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"userId\" : \"690722900ccf12235dfe8cc5\",\r\n  \"category\": \"Payout\", //[\"Payout\", \"GuestComplaint\", \"BookingProblem\", \"TechnicalIssue\", \"Other\"]\r\n  \"priority\": \"High\", //[\"Low\", \"Medium\", \"High\"]\r\n  \"subject\": \"Payout not received for booking #BK-123456\",\r\n  \"description\": \"I have not received payout for booking #BK-123456 since 3 days.\",\r\n  \"bookingId\": \"690724320ccf12235dfe8cdb\",\r\n  \"attachments\": [\"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update ticket",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"userId\" : \"690722900ccf12235dfe8cc5\",\r\n  \"category\": \"Payout\", //[\"Payout\", \"GuestComplaint\", \"BookingProblem\", \"TechnicalIssue\", \"Other\"]\r\n  \"priority\": \"High\", //[\"Low\", \"Medium\", \"High\"]\r\n  \"subject\": \"Payout not received for booking #BK-123456\",\r\n  \"description\": \"I have not received payout for booking #BK-123456 since 3 days.\",\r\n  \"bookingId\": \"690724320ccf12235dfe8cdb\",\r\n  \"attachments\": [\"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support/69072d4351bd22bac10a1677",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support",
+										"69072d4351bd22bac10a1677"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all tickets",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support?page=1&limit=100&assignee=\"\"",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "assignee",
+											"value": "\"\""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get ticket by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support/69072d4351bd22bac10a1677",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support",
+										"69072d4351bd22bac10a1677"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Message to Ticket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690720925ccac6d9000cbeb6\",  //required (owner or agent/admin)\r\n  \"message\": \"Sharing payout reference: TXN-778899\",\r\n  \"attachments\": [\"uploads/documents/screenshot.png\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support/69072d4351bd22bac10a1677/messages",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support",
+										"69072d4351bd22bac10a1677",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "close ticket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690720925ccac6d9000cbeb6\",  //required (owner or agent/admin)\r\n  \"message\": \"Sharing payout reference: TXN-778899\",\r\n  \"attachments\": [\"uploads/documents/screenshot.png\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support/69072d4351bd22bac10a1677/close",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support",
+										"69072d4351bd22bac10a1677",
+										"close"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of Add Message to Ticket",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/support/69072d4351bd22bac10a1677/messages",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"support",
+										"69072d4351bd22bac10a1677",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Live Chat Support",
+					"item": [
+						{
+							"name": "createChatSession",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"690722900ccf12235dfe8cc5\",\r\n  \"topic\": \"Payout issue for booking #BK-123456\",\r\n  \"relatedTicketId\": \"6720t1...abc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chat-support/sessions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chat-support",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get ChatSession",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chat-support/sessions?page=1&limit=10&userId=690722900ccf12235dfe8cc5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chat-support",
+										"sessions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "userId",
+											"value": "690722900ccf12235dfe8cc5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Message",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"userId\": \"690720925ccac6d9000cbeb6\",\r\n    \"message\": \"Hello, I need help with payout\", \r\n    \"attachments\": [\"uploads/photos/issue.png\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chat-support/sessions/69074a65665d07349c3d2a69/messages",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chat-support",
+										"sessions",
+										"69074a65665d07349c3d2a69",
+										"messages"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Send Message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{   \r\n    \"userId\": \"690720925ccac6d9000cbeb6\",\r\n    \"message\": \"Hello, I need help with payout\", \r\n    \"attachments\": [\"uploads/photos/issue.png\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/chat-support/sessions/69074a65665d07349c3d2a69/messages",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"chat-support",
+												"sessions",
+												"69074a65665d07349c3d2a69",
+												"messages"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "330"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"14a-pIxjEgPiYpU6+kmxz9Zu3HPrdDs\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 05 Nov 2025 05:16:06 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Message sent\",\n    \"data\": {\n        \"sessionId\": \"69074a65665d07349c3d2a69\",\n        \"sender\": \"690720925ccac6d9000cbeb6\",\n        \"message\": \"Hello, I need help with payout\",\n        \"attachments\": [\n            \"uploads/photos/issue.png\"\n        ],\n        \"_id\": \"690add96a482cbb040bfe11e\",\n        \"createdAt\": \"2025-11-05T05:16:06.903Z\",\n        \"updatedAt\": \"2025-11-05T05:16:06.903Z\",\n        \"__v\": 0\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "get Send Message",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"message\": \"Hello, I need help with payout\", \r\n    \"attachments\": [\"uploads/photos/issue.png\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chat-support/sessions/69074a65665d07349c3d2a69/messages",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chat-support",
+										"sessions",
+										"69074a65665d07349c3d2a69",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get Send Message Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"message\": \"Hello, I need help with payout\", \r\n    \"attachments\": [\"uploads/photos/issue.png\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chat-support/sessions/69074a65665d07349c3d2a69/close",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chat-support",
+										"sessions",
+										"69074a65665d07349c3d2a69",
+										"close"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "guests management",
+					"item": [
+						{
+							"name": "get list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user booking",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/bookings/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"bookings",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user recent bookings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/bookings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"bookings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user referrals",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/referrals",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"referrals"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user referrals summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/referrals/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"referrals",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user activity",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/activity",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"activity"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user searches",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/searches",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"searches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user searches preferences",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/searches/preferences",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"searches",
+										"preferences"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get favorites",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/favorites",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"favorites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get favorites summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/favorites/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"favorites",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get favorites summary Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/favorites/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"favorites",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get reviews",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/reviews",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get offers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/offers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get offers summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/offers/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"offers",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get app-usage/summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/app-usage/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"app-usage",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get app-usage/summary Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/guests/690722900ccf12235dfe8cc5/app-usage/logs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"guests",
+										"690722900ccf12235dfe8cc5",
+										"app-usage",
+										"logs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Hotel Management",
+					"item": [
+						{
+							"name": "video",
+							"item": [
+								{
+									"name": "get video",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/videos",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"media",
+												"videos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create video",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"videos\": [\r\n    { \"title\": \"Hotel Tour\", \"url\": \"https://.../tour.mp4\", \"thumbnail\": \"https://.../thumb.jpg\" }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/videos",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"media",
+												"videos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete video",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"videos\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/videos/6911f74c801aac5ee955fcd0",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"media",
+												"videos",
+												"6911f74c801aac5ee955fcd0"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "document",
+							"item": [
+								{
+									"name": "documents/summary",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/documents/summary",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"documents",
+												"summary"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "list of documents",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/documents/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"documents",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create documents",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "//status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },\r\n{\r\n    \"documents\" : [\r\n        {\r\n            \"documentType\": \"Pan\",\r\n            \"status\": \"Pending\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"documentType\": \"Aadhar\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n\r\n} ",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/documents/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"documents",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update single document",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "//status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },\r\n{\r\n    \"documents\" : [\r\n        {\r\n            \"documentType\": \"Pan\",\r\n            \"status\": \"Pending\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"documentType\": \"Aadhar\",\r\n            \"status\": \"Pending\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n\r\n} ",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/documents/6911f5760ab0e51c32f44da2",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"documents",
+												"6911f5760ab0e51c32f44da2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete single document",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "//status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },\r\n{\r\n    \"documents\" : [\r\n        {\r\n            \"documentType\": \"Pan\",\r\n            \"status\": \"Pending\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"documentType\": \"Aadhar\",\r\n            \"documentUrl\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n\r\n} ",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/documents/6911f5760ab0e51c32f44da2",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"documents",
+												"6911f5760ab0e51c32f44da2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Performance",
+							"item": [
+								{
+									"name": "performance",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/performance/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"performance",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "review",
+							"item": [
+								{
+									"name": "reviews/summary",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/reviews/summary",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"reviews",
+												"summary"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "reviews/ List",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/reviews",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"reviews"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "reviews/ reply",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"message\": \"Thanks for your feedback!\",\r\n    \"repliedBy\": \"69118c63bcf487bcb97412eb\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/reviews/6906237d5d7dfeda946867a6/reply",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"reviews",
+												"6906237d5d7dfeda946867a6",
+												"reply"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "reviews/ reply Delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"message\": \"Thanks for your feedback!\",\r\n    \"repliedBy\": \"69118c63bcf487bcb97412eb\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/reviews/6906237d5d7dfeda946867a6",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"properties",
+												"690723200ccf12235dfe8cc9",
+												"reviews",
+												"6906237d5d7dfeda946867a6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Hotel List",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Hotel List stats",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get property by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all rooms for a specific property with filters",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/rooms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get photo",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/photos",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media/summary",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/summary",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"media",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media/photos",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/photos",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"media",
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create media/photos",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n    // status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: \r\n    \"photos\": [\r\n        {\r\n            \"name\": \"room\",\r\n            \"status\": \"Pending\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"name\": \"room\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/photos",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"media",
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update media/photos",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n    // status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: \r\n    \"photos\": [\r\n        {\r\n            \"name\": \"room\",\r\n            \"status\": \"Approved\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"name\": \"room\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/photos/status",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"media",
+										"photos",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update media/photos Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //GET /api/admin/properties?page=1&limit=10&city=Goa&status=Accepted&sortBy=createdAt&sortOrder=desc\r\n    // status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: \r\n    \"photos\": [\r\n        {\r\n            \"name\": \"room\",\r\n            \"status\": \"Approved\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        },\r\n        {\r\n            \"name\": \"room\",\r\n            \"url\": \"http://3.111.42.160:4000/uploads/photos/1762075511690-284085688.PNG\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/properties/690723200ccf12235dfe8cc9/media/photos/6911f5760ab0e51c32f44da3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"properties",
+										"690723200ccf12235dfe8cc9",
+										"media",
+										"photos",
+										"6911f5760ab0e51c32f44da3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "verification",
+					"item": [
+						{
+							"name": "Guests",
+							"item": [
+								{
+									"name": "guests list",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests?page=3&limit=10 ",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "3"
+												},
+												{
+													"key": "limit",
+													"value": "10 "
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "guests by id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "guest note",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"kycNotes\": \"Name mismatch on Aadhaar\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5/note",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5",
+												"note"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2 guest bypass",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"kycNotes\": \"Name mismatch on Aadhaar\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5/bypass",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5",
+												"bypass"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2 guest resend",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5/documents/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5",
+												"documents",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "guests status",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"kycStatus\": \"Verified\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5/status",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5",
+												"status"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "guests documents",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"documents\": [\r\n        {\r\n            \"documentId\": \"id\",\r\n            \"status\": \"Verified\"\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/guests/690722900ccf12235dfe8cc5/documents",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"guests",
+												"690722900ccf12235dfe8cc5",
+												"documents"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Hotels",
+							"item": [
+								{
+									"name": "Listing summary and actions",
+									"item": [
+										{
+											"name": "listing/summary",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/listing/summary",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"listing",
+														"summary"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "listing/summary approve",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"note\": \"All documents verified. Listing approved.\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/listing/approve",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"listing",
+														"approve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "listing/summary approve reject",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"note\": \"Property proof document unclear.\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/listing/reject",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"listing",
+														"reject"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "listing/summary badges",
+											"request": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"verifiedBadge\": true,\r\n    \"goSafeBadge\": false,\r\n    \"hourlyBooking\": true,\r\n    \"coupleFriendly\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/badges",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"badges"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "flags",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"message\": \"Property proof document unclear\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/flags",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"flags"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "flags Delete",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"message\": \"Property proof document unclear\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/flags",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"flags"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "flags Delete Copy",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"message\": \"Property proof document unclear\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/request-more-info",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"api",
+														"admin",
+														"verification",
+														"hotels",
+														"690f0c8cbcf487bcb97410c3",
+														"request-more-info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "guests documents Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"documents\": [\r\n        {\r\n            \"documentId\": \"id\",\r\n            \"status\": \"Verified\"\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "guests property by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"documents\": [\r\n        {\r\n            \"documentId\": \"id\",\r\n            \"status\": \"Verified\"\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "hotel property note",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"verificationNotes\": \"Mismatch in business license number\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/note",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3",
+												"note"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "hotel property bypass",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"bypass\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/bypass",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3",
+												"bypass"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "hotel property link resend",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"bypass\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/resend",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3",
+												"resend"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "hotel property update document",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"status\": \"Approved\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/documents/690f0c8cbcf487bcb97410c4",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3",
+												"documents",
+												"690f0c8cbcf487bcb97410c4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get hotel document",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"documents\": [\r\n        {\r\n            \"documentId\": \"690f0c8cbcf487bcb97410c4\",\r\n            \"status\": \"Verified\"\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/verification/hotels/690f0c8cbcf487bcb97410c3/documents",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"verification",
+												"hotels",
+												"690f0c8cbcf487bcb97410c3",
+												"documents"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "overview",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/admin/verification/overview",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"verification",
+										"overview"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "proerty type",
+					"item": [
+						{
+							"name": "create propertype",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Villa2\",\r\n  \"description\": \"Luxury standalone house with private amenities\",\r\n  \"icon\": \"villa-icon.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-types",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get propertype",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Villa2\",\r\n  \"description\": \"Luxury standalone house with private amenities\",\r\n  \"icon\": \"villa-icon.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-types",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get propertype By ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Villa2\",\r\n  \"description\": \"Luxury standalone house with private amenities\",\r\n  \"icon\": \"villa-icon.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-types/6911dcba0fd2ac117671a947",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-types",
+										"6911dcba0fd2ac117671a947"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get propertype delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Villa2\",\r\n  \"description\": \"Luxury standalone house with private amenities\",\r\n  \"icon\": \"villa-icon.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-types/6911dcba0fd2ac117671a947",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-types",
+										"6911dcba0fd2ac117671a947"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "property-list-types",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyTypeId\": \"6911dcea0fd2ac117671a94b\",\r\n  \"propertyTypeName\": \"Villa2\",\r\n  \"PropertyListTypeName\": \"Entire property2\",\r\n  \"description\": \"Guests can book the whole property (e.g., 2 BHK).\",\r\n  \"icon\": \"entire-property.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-list-types",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-list-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyTypeId\": \"6911dcea0fd2ac117671a94b\",\r\n  \"propertyTypeName\": \"Villa2\",\r\n  \"PropertyListTypeName\": \"Entire property2\",\r\n  \"description\": \"Guests can book the whole property (e.g., 2 BHK).\",\r\n  \"icon\": \"entire-property.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-list-types",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-list-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyTypeId\": \"6911dcea0fd2ac117671a94b\",\r\n  \"propertyTypeName\": \"Villa2\",\r\n  \"PropertyListTypeName\": \"Entire property2\",\r\n  \"description\": \"Guests can book the whole property (e.g., 2 BHK).\",\r\n  \"icon\": \"entire-property.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-list-types/6911e46e5e33b9d6dc2e7716",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-list-types",
+										"6911e46e5e33b9d6dc2e7716"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"propertyTypeId\": \"6911dcea0fd2ac117671a94b\",\r\n  \"propertyTypeName\": \"Villa2\",\r\n  \"PropertyListTypeName\": \"Entire property2\",\r\n  \"description\": \"Guests can book the whole property (e.g., 2 BHK).\",\r\n  \"icon\": \"entire-property.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/property-list-types/6911e3b31ace9ff05878dd0d",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"property-list-types",
+										"6911e3b31ace9ff05878dd0d"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Booking Management",
+					"item": [
+						{
+							"name": "screen1",
+							"item": [
+								{
+									"name": "Overview cards",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/overview",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"overview"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List bookings with filters",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get single booking",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "screen2",
+							"item": [
+								{
+									"name": "update admin note",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"adminNotes\": \"ram\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4/notes",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4",
+												"notes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update admin requests",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"specialRequests\": \"ram\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4/requests",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update admin payment-info",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"method\": \"oneline\",\r\n    \"transactionId\": \"mabce123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4/payment-info",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4",
+												"payment-info"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "screen3",
+							"item": [
+								{
+									"name": "hourly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/hourly",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"hourly"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "refunds",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/refunds",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"refunds"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "disputes",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/disputes",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"disputes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ota",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/disputes",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"disputes"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "screen4",
+							"item": [
+								{
+									"name": "stay-details",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4/stay-details",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4",
+												"stay-details"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "stay-details Copy",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/691205517964fba45165dab4/price-summary",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"691205517964fba45165dab4",
+												"price-summary"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "screen5",
+							"item": [
+								{
+									"name": "refunds",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/admin/bookings/refunds",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"bookings",
+												"refunds"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "amenities",
+			"item": [
+				{
+					"name": "get amenites",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// category = room, property",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/amenities",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"amenities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
