@@ -12,12 +12,10 @@ export const getProfile = async (req, res) => {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: "userId is required" });
 
-    const user = await User.findById(userId).select("firstName lastName phone email avatar role");
+    const user = await User.findById(userId);
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    const property = await PropertyInfo.findOne({ userId: user._id }).select(
-      "basicPropertyDetails.name contact.phone contact.email photos.logo"
-    );
+    const property = await PropertyInfo.findOne({ userId: user?._id });
 
     res.status(200).json({ success: true, data: { user, property } });
   } catch (error) {
@@ -77,7 +75,7 @@ export const getProfileSummary = async (req, res) => {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: "userId is required" });
 
-    const property = await PropertyInfo.findOne({ userId }).select("_id");
+    const property = await PropertyInfo.findOne({ userId });
     const propertyId = property?._id;
 
     const [bookings, rooms, reviews, tickets] = await Promise.all([
