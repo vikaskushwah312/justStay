@@ -14,6 +14,13 @@ export const createRoom = async (req, res) => {
       return res.status(400).json({ status: "error", message: "propertyId is required" });
     }
 
+    // normalize roomNumbers if provided
+    if (Array.isArray(data.roomNumbers)) {
+      const unique = Array.from(new Set(data.roomNumbers.map(String).map((s) => s.trim()).filter(Boolean)));
+      data.roomNumbers = unique;
+      if (!data.numberOfRooms) data.numberOfRooms = unique.length || 1;
+    }
+
     const room = await PropertyRoom.create(data);
 
     res.status(201).json({
@@ -174,6 +181,13 @@ export const updateRoom = async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
+
+    // optional normalization for roomNumbers
+    if (Array.isArray(data.roomNumbers)) {
+      const unique = Array.from(new Set(data.roomNumbers.map(String).map((s) => s.trim()).filter(Boolean)));
+      data.roomNumbers = unique;
+      if (!data.numberOfRooms && unique.length > 0) data.numberOfRooms = unique.length;
+    }
 
     const updatedRoom = await PropertyRoom.findByIdAndUpdate(id, data, {
       new: true,

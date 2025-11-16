@@ -5,6 +5,59 @@ import PropertyRoom from "../models/propertyRoom.model.js";
 const parseISODate = (s) => new Date(`${s}T00:00:00.000Z`);
 const formatISODate = (d) => d.toISOString().slice(0, 10);
 
+// normalize inventory day response with all keys present
+const normalizeDay = (doc) => {
+  const d = doc || {};
+  return {
+    _id: d._id || null,
+    roomId: String(d.roomId || ''),
+    date: d.date || null,
+    allotment: typeof d.allotment === 'number' ? d.allotment : 0,
+    open: d.open !== false,
+    stopSell: d.stopSell === true,
+    notes: d.notes || '',
+    sellStatus: d.sellStatus || 'sellable',
+    nonSellReasons: Array.isArray(d.nonSellReasons) ? d.nonSellReasons : [],
+    baseRateSummary: {
+      roomOnly: d.baseRateSummary?.roomOnly ?? 0,
+      cp: d.baseRateSummary?.cp ?? 0
+    },
+    ratePlans: {
+      roomOnly: {
+        baseAdults: d.ratePlans?.roomOnly?.baseAdults ?? 3,
+        adults: {
+          a1: d.ratePlans?.roomOnly?.adults?.a1 ?? null,
+          a2: d.ratePlans?.roomOnly?.adults?.a2 ?? null,
+          a3: d.ratePlans?.roomOnly?.adults?.a3 ?? null,
+        },
+        perChild0to8Free: d.ratePlans?.roomOnly?.perChild0to8Free !== false,
+        perChild9to12: d.ratePlans?.roomOnly?.perChild9to12 ?? null,
+        perExtraAdult: d.ratePlans?.roomOnly?.perExtraAdult ?? null,
+      },
+      cp: {
+        baseAdults: d.ratePlans?.cp?.baseAdults ?? 3,
+        adults: {
+          a1: d.ratePlans?.cp?.adults?.a1 ?? null,
+          a2: d.ratePlans?.cp?.adults?.a2 ?? null,
+          a3: d.ratePlans?.cp?.adults?.a3 ?? null,
+        },
+        perChild0to8Free: d.ratePlans?.cp?.perChild0to8Free !== false,
+        perChild9to12: d.ratePlans?.cp?.perChild9to12 ?? null,
+        perExtraAdult: d.ratePlans?.cp?.perExtraAdult ?? null,
+      }
+    },
+    restrictions: {
+      minAdvanceBookingTime: d.restrictions?.minAdvanceBookingTime || '11:59PM',
+      bookingWindowDays: d.restrictions?.bookingWindowDays ?? 450,
+      maxAdvanceDays: d.restrictions?.maxAdvanceDays ?? 450,
+      minLOS: d.restrictions?.minLOS ?? 1,
+      maxLOS: d.restrictions?.maxLOS ?? 450,
+    },
+    createdAt: d.createdAt || null,
+    updatedAt: d.updatedAt || null,
+  };
+};
+
 export const getInventoryCalendar = async (req, res) => {
   try {
     const { month, roomId, propertyId } = req.query;
@@ -53,6 +106,12 @@ export const getInventoryCalendar = async (req, res) => {
           allotment: rec?.allotment ?? 0,
           open: rec?.open ?? true,
           stopSell: rec?.stopSell ?? false,
+          sellStatus: rec?.sellStatus || 'sellable',
+          nonSellReasons: Array.isArray(rec?.nonSellReasons) ? rec.nonSellReasons : [],
+          baseRateSummary: {
+            roomOnly: rec?.baseRateSummary?.roomOnly ?? 0,
+            cp: rec?.baseRateSummary?.cp ?? 0
+          },
         };
       });
       return {
@@ -82,6 +141,73 @@ export const getInventoryCalendar = async (req, res) => {
   } catch (error) {
     console.error("Error getInventoryCalendar:", error);
     return res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+// Get a single inventory day
+export const getInventoryDay = async (req, res) => {
+  try {
+    const { roomId, date } = req.params;
+    const doc = await RoomInventory.findOne({ roomId, date: parseISODate(date) });
+    if (!doc) return res.status(200).json({ success: true, data: normalizeDay({ roomId, date: parseISODate(date) }) });
+    return res.status(200).json({ success: true, data: normalizeDay(doc) });
+  } catch (error) {
+    console.error('Error getInventoryDay:', error);
+    return res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// Patch a single inventory day (partial)
+export const patchInventoryDay = async (req, res) => {
+  try {
+    const { roomId, date } = req.params;
+    const allowed = ['allotment','open','stopSell','notes','sellStatus','nonSellReasons','baseRateSummary','ratePlans','restrictions'];
+    const set = {};
+    for (const k of allowed) {
+      if (typeof req.body[k] !== 'undefined') set[k] = req.body[k];
+    }
+    const updated = await RoomInventory.findOneAndUpdate(
+      { roomId, date: parseISODate(date) },
+      { $set: set },
+      { new: true, upsert: true, runValidators: true }
+    );
+    return res.status(200).json({ success: true, message: 'Inventory day updated', data: normalizeDay(updated) });
+  } catch (error) {
+    console.error('Error patchInventoryDay:', error);
+    return res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// Update only day rates and restrictions
+export const updateDayRatesAndRestrictions = async (req, res) => {
+  try {
+    const { roomId, date } = req.params;
+    const { baseRateSummary, ratePlans, restrictions } = req.body;
+    const set = {};
+    if (baseRateSummary) set.baseRateSummary = baseRateSummary;
+    if (ratePlans) set.ratePlans = ratePlans;
+    if (restrictions) set.restrictions = restrictions;
+    const updated = await RoomInventory.findOneAndUpdate(
+      { roomId, date: parseISODate(date) },
+      { $set: set },
+      { new: true, upsert: true, runValidators: true }
+    );
+    return res.status(200).json({ success: true, message: 'Rates & restrictions updated', data: normalizeDay(updated) });
+  } catch (error) {
+    console.error('Error updateDayRatesAndRestrictions:', error);
+    return res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// Delete a day
+export const deleteInventoryDay = async (req, res) => {
+  try {
+    const { roomId, date } = req.params;
+    const out = await RoomInventory.findOneAndDelete({ roomId, date: parseISODate(date) });
+    return res.status(200).json({ success: true, message: out ? 'Deleted' : 'No record', data: normalizeDay(out || { roomId, date: parseISODate(date) }) });
+  } catch (error) {
+    console.error('Error deleteInventoryDay:', error);
+    return res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 

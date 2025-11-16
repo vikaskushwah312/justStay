@@ -31,9 +31,15 @@ const propertyRoomSchema = new Schema(
       required: true,
     },
 
+    // Optional reference to master room type list
+    roomTypeId: {
+      type: Schema.Types.ObjectId,
+      ref: "RoomType",
+    },
+
     type: {
       type: String,
-      enum: roomTypes,
+      // enum: roomTypes,
       required: true,
       default: "Standard",
     },
@@ -43,10 +49,13 @@ const propertyRoomSchema = new Schema(
     bathroom: { type: Number, required: true },
     numberOfRooms: { type: Number, default: 1 },
 
+    // Specific room numbers as per UI (e.g., 101, 102)
+    roomNumbers: { type: [String], default: [] },
+
     price: {
-      oneNight: { type: Number, required: true },
-      threeHours: { type: Number, default: 0 },
-      sixHours: { type: Number, default: 0 },
+      oneNight: { type: Number, required: true }, // "1 night price"
+      threeHours: { type: Number, default: 0 },    // "3 hours price"
+      sixHours: { type: Number, default: 0 },      // "6 hours price"
     },
 
     photos: { type: [String], default: [] },
